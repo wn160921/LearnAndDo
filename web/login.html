@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        用户名：<input type="number" class="username"><br>
+        密&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" class="password" ><br>
+        <button class="login">提交</button>
+    </div>
+    <script src="jquery-3.3.1.js"></script>
+    <script>
+        $(".login").click(function () {
+            var name = $(".username").val();
+            var passwo = $(".password").val();
+            $.post("UserServlet",
+                {
+                    method:"Login",
+                    username:name,
+                    password:passwo
+                },function (data,status) {
+                    if(data=="success"){
+                        self.location="experiment/testhomepage.html";
+                    }
+
+                });
+        });
+    </script>
+</body>
+</html>

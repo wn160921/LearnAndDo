@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学习</title>
+    <style type="text/css">
+        /* *全局 */
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+        }
+        #top{
+            width: 100%;
+            height: 50px;
+        }
+
+        .left{
+            float: left;
+            width: 30%;
+            height: 800px;
+        }
+        .center{
+            position: relative;
+            width: 35%;
+            float: left;
+            height: 800px;
+        }
+        .right{
+            float: left;
+            height: 800px;
+            width: 32%;
+        }
+        .run{
+            float: right;
+        }
+        .editArea{
+            width: 100%;
+            height: 760px;
+        }
+        .center .utilBar ul li{
+            float: left;
+        }
+        .center .utilBar ul li .fileName{
+            margin-left: 5px;
+            background: green;
+            cursor: pointer;
+        }
+        .center .utilBar ul li .codediv{
+            position: absolute;
+            width: 100%;
+            top: 20px;
+            left: 0px;
+        }
+        .center .utilBar ul .unselected .codediv{
+            display: none;
+        }
+        .center .utilBar ul .unselected .fileName{
+            background:black;
+        }
+    </style>
+    <script src="../jquery-3.3.1.js"></script>
+</head>
+<body>
+<div>
+    <div id="top">
+
+    </div>
+    <div class="left">
+
+    </div>
+    <div class="center">
+        <div class="utilBar">
+            <input type="button" value="运行" class="run"/>
+            <ul>
+                <li class="unselected">
+                    <div class="fileName">LinkedList.h</div>
+                    <div class="codediv">
+                        <textarea id="header" spellcheck="false" class="editArea">
+
+                        </textarea>
+                    </div>
+                </li>
+                <li>
+                    <div class="fileName">main.c</div>
+                    <div class="codediv">
+                        <textarea id="code" spellcheck="false" class="editArea">
+
+                        </textarea>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="right">
+            <textarea id="result" readonly="readonly" class="editArea">
+
+            </textarea>
+        <img id="showlinklist" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532057394&di=75f97fe5339b5e01c62760f94592bb72&imgtype=jpg&er=1&src=http%3A%2F%2Fs8.sinaimg.cn%2Fmiddle%2F8ee3e0acxb0171b491f27%26amp%3B690">
+    </div>
+
+</div>
+
+<script>
+    $("#code").keydown(function (e) {
+        event = e||window.event;
+        console.log(event.which);
+        if(event.keyCode===9){
+            event.preventDefault();
+            var position=this.selectionStart+4;//此处我用了两个空格表示缩进，其实无所谓几个，只要和下面保持一致就好了。
+            this.value=this.value.substr(0,this.selectionStart)+'    '+this.value.substr(this.selectionStart);
+            this.selectionStart=position;
+            this.selectionEnd=position;
+            this.focus();
+            event.returnValue=false;
+        }
+    });
+    $(".run").click(function () {
+        //alert("click");
+        console.log("click");
+        console.log("code is:"+$("#code").val());
+        $.post("../test",
+            {
+                "code":$("#code").val(),
+                "LinkList.h":$("#header").val()
+            },
+            function (data,status) {
+                console.log(data);
+                $("#result").val($.parseJSON(data).result);
+                $("#showlinklist").attr("src",$.parseJSON(data).image);
+            });
+    });
+    var codes = "typedef struct Node {\n" +
+        "   ElemType data;\n" +
+        "   struct  Node  *next;\n" +
+        "}LNode,*LinkList;                 // LinkList为结构体指针类型\n" +
+        "\n" +
+        "void InitList_L(LinkList &L)\n" +
+        "    {\n" +
+        "\t\tL=(LNode *)malloc(sizeof(LNode));  // 申请存放一个结点数据所需要的内在空间\n" +
+        "\t\tif(!L)   exit(1);                        // 存储分配失败\n" +
+        "        L->next=NULL;                            // 表头结点的指针域置空\n" +
+        "\t}// InitList_L\n" +
+        "\n" +
+        "int ListLength_L( LinkList L )\n" +
+        "\t{     // L为带头结点的链表的头指针，本函数返回L所指链表的长度\n" +
+        "  \t\tLinkList  p;\n" +
+        "\t\tint k=0;\n" +
+        "\t\tp=L->next;                             // p指向链表中的第一个结点\n" +
+        " \t\t while(p)\n" +
+        "  \t\t { k++;  p=p->next; }              // k计非空结点数\n" +
+        "         return k;\n" +
+        "\t}// ListLength_L\n" +
+        "\n" +
+        "LNode *LocateElem_L( LinkList L,ElemType e)\n" +
+        "\t{  // 在L所指的单链表中查找第一个值和e 相等的结点，若存在，则返回其指针；\n" +
+        "\t\t// 否则返回空指针\n" +
+        " \t\t LinkList  p;\n" +
+        " \t\t p=L->next;                               // p指向链表中的第一个结点\n" +
+        "  \t\t while (p&&p->data!=e ) p=p->next;\n" +
+        "  \t\t return p;\n" +
+        "\t}// LocateElem_L\n" +
+        "\n" +
+        "int LocateElem_L_2( LinkList L,ElemType e)\n" +
+        "\t{  // 在L所指的单链表中查找第一个值和e相等的结点，若存在，则返回元素顺序(返回值+2为真实顺序)，否则返回0\n" +
+        " \t\t int i=0;\n" +
+        "         LinkList  p;\n" +
+        " \t\t p=L->next;                               // p指向链表中的第一个结点\n" +
+        "  \t\t while (p&&p->data!=e) {p=p->next;i++;}\n" +
+        "  \t\t return i;\n" +
+        "\t}// LocateElem_L_2\n" +
+        "\n" +
+        "\n" +
+        "\n" +
+        "bool ListInsert_L( LinkList &L, int i, ElemType e)\n" +
+        "\t{    //在带有头结点的单链表L中的第i个结点之前插入元素e\n" +
+        "\t\tLinkList p,s;\n" +
+        "  \t\tint j;\n" +
+        "  \t\tp=L;  j=0;\n" +
+        "  \t\twhile(p->next&&j<i-1)  { p=p->next; j++; }   // 寻找第i-1个结点,并让p指向此结点\n" +
+        "  \t\tif(j!=i-1)   return false;                   // i的位置不合理\n" +
+        "  \t\tif((s=(LNode *)malloc(sizeof(LNode)))==NULL) exit(1);  // 存储分配失败\n" +
+        "  \t\ts->data=e;\n" +
+        "  \t\ts->next=p->next;  p->next=s;                  // 插入新结点\n" +
+        "  \t\treturn true;\n" +
+        " \t}// ListInsert_L\n" +
+        "\n" +
+        "bool ListDelete_L( LinkList &L, int i, ElemType &e)\n" +
+        "\t{    // 删除带有头结点的单链表L中的第i个结点，并让e返回其值\n" +
+        "\t\tLinkList p,q;\n" +
+        "\t    int j;\n" +
+        "  \t\tp=L;  j=0;\n" +
+        " \t\twhile(p->next->next&&j<i-1){ p=p->next; j++; } //寻找第i-1个结点,并让p指向此结点\n" +
+        "  \t\tif(j!=i-1)   return false;                     // i的位置不合理\n" +
+        "  \t\tq=p->next;                                     // q指向其后继\n" +
+        "\t\tp->next=q->next;                               // 删除q所指结点\n" +
+        "\t\te=q->data;    free(q);\n" +
+        "  \t\treturn true;\n" +
+        " \t}// ListDelete_L\n" +
+        "\n" +
+        "bool GetElem_L(LinkList L,int i, ElemType &e)\n" +
+        "\t{    // 取出单链表L中第i个元素，并用e返回其值\n" +
+        "\t\tLinkList p;\n" +
+        "  \t\tint j;\n" +
+        "  \t\tp=L;  j=0;\n" +
+        "\t\twhile(p->next&&j<i){ p=p->next; j++; }  // 寻找第i个结点,并让p指向此结点\n" +
+        " \t\t if(j!=i)   return false;                      // i的位置不合理\n" +
+        "  \t\t e=p->data;                                     // 被取元素的值赋给e\n" +
+        " \t\t return true;\n" +
+        "    }// GetElem_L\n" +
+        "\n" +
+        "void CreateList_L_Rear(LinkList &L,ElemType a[],int n )\n" +
+        "\t{   // 已知一维数组A[n]中存有线性表的数据元素，利用尾插法创建单链表L\n" +
+        "   \t\tLinkList p,q;   int i;\n" +
+        "\t  \tL=(LinkList)malloc(sizeof(LNode));    // 创建立头结点\n" +
+        "\t\tq=L;                                // q始终指向尾结点，开始时尾结点也是头结点\n" +
+        "\t\tfor(i=0;i<n;i++)\n" +
+        "    \t{   p=(LinkList)malloc(sizeof(LNode));          // 创建新结点\n" +
+        "            p->data=a[i];                               // 赋元素值\n" +
+        "            q->next=p;                                  // 插入在尾结点之后\n" +
+        "            q=p;                                         // q指向新的表尾\n" +
+        " \t    }\n" +
+        "   \t\tq->next=NULL;                                    // 表尾结点next域置空\n" +
+        "     }// CreateList_L_Rear\n" +
+        "\n" +
+        "void CreateList_L_Front(LinkList &L,ElemType a[],int n )\n" +
+        "\t{    // 已知一维数组A[n]中存有线性表的数据元素，利用头插法创建单链表L\n" +
+        "   \t\tLinkList p;   int i;\n" +
+        "\t\tL=(LinkList)malloc(sizeof(LNode));              //创建立头结点\n" +
+        "\t\tL->next=NULL;\n" +
+        "\t\tfor(i=n-1;i>=0;i--)\n" +
+        "\t\t{    p=(LinkList)malloc(sizeof(LNode));           //创建新结点\n" +
+        "\t\t     p->data=a[i];                                // 赋元素值\n" +
+        "        \t p->next=L->next;                          // 插入在头结点和第一个结点之间\n" +
+        "       \t     L->next=p;\n" +
+        "        }\n" +
+        "\t}// CreateList_L_Front\n" +
+        "\n" +
+        "void ListTraverse_L(LinkList L)\n" +
+        "\t{\n" +
+        "\t\t LinkList p=L->next;\n" +
+        " \t\t while(p)\n" +
+        "  \t  {  cout<< setw(6)<<p->data;\n" +
+        "         p=p->next;\n" +
+        "      }\n" +
+        "\t\tcout<<endl;\n" +
+        "\t}// ListTraverse_L\n" +
+        "\n" +
+        "void DestroyList_L(LinkList &L )\n" +
+        "\t{\n" +
+        "  \t\tLinkList p,p1;\n" +
+        " \t\t p=L;\n" +
+        "  \t\twhile(p)\n" +
+        "  \t\t{   p1=p;\n" +
+        "    \t\tp=p->next;\n" +
+        "    \t\tfree(p1);\n" +
+        "        }\n" +
+        "  \t\t\t L=NULL;\n" +
+        "    }// DestroyList_L\n" +
+        "\n" +
+        "void ListVisualization_L(LinkList L)\n" +
+        "{   int temp=0;\n" +
+        "    cout<<endl;\n" +
+        "    LinkList p=L;\n" +
+        "    if( false )\n" +
+        "    {  }\n" +
+        "    else if(p&&!(p->next))\n" +
+        "    {\n" +
+        "\t\tcout<<\"dot代码 digraph g { rankdir=LR;\\n node [shape = \\\"record\\\" width = 0.5];node0  [label = \\\"<data> //// | <next>  ^\\\"];\";\n" +
+        "\t}\n" +
+        "\telse if(p&&(p->next))\n" +
+        "    {\n" +
+        "        cout<<\"dot代码 digraph g { rankdir=LR; node [shape = \\\"record\\\" width = 0.5];node0  [label = \\\"<data> //// | <next>  \\\"];\";\n" +
+        "\t   while(p->next)\n" +
+        "\t   {\n" +
+        "        printf(\"node%d [label =\\\"<data> %d| <next>\\\"]  node%d:next -> node%d:data;\",temp+1, p->next->data,temp,temp+1);\n" +
+        "\t\t p=p->next;\n" +
+        "\t\t temp++;\n" +
+        "\t   }\n" +
+        "    }\n" +
+        "\tcout<<\"}\"<<endl;\n" +
+        "\n" +
+        "}\n" +
+        "\n";
+    $("#header").val(codes);
+    codes = "typedef  int ElemType;\n" +
+        "# include \"stdlib.h\"\n" +
+        "# include \"iostream\"\n" +
+        "# include \"iomanip\"\n" +
+        "using namespace std;\n" +
+        "# include \"LinkList.h\"\n" +
+        "\n" +
+        "int  main()\n" +
+        "{\n" +
+        "    LinkList mylist;\n" +
+        "    int i,j,temp,forLocate,forGet,forInsert,forDelete,a[]={6,8,16,2,34,56,7,10,22,45};\n" +
+        "    InitList_L(mylist);\n" +
+        "\n" +
+        "    cout<<\"我初始化了一个头结点。\"<<endl;\n" +
+        "    CreateList_L_Front(mylist,a,10);\n" +
+        "    cout<<\"我创建了一个带头结点的单链表，表长为：\"<<ListLength_L(mylist)<<endl;\n" +
+        "    cout<<endl<<\"表中的元素依次为：\"<<endl;\n" +
+        "    ListTraverse_L(mylist);\n" +
+        "    ListVisualization_L(mylist);\n" +
+        "    DestroyList_L(mylist);\n" +
+        "    cout<<\"销毁成功====>\"<<endl;\n" +
+        "}\n" +
+        "\n" +
+        "                        ";
+    $("#code").val(codes);
+    $(".center .utilBar ul li").click(function () {
+        $(this).removeClass("unselected").siblings().addClass("unselected");
+    })
+</script>
+</body>
+
+</html>

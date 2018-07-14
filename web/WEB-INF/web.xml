@@ -5,10 +5,29 @@
          version="4.0">
     <servlet>
         <servlet-name>TestServlet</servlet-name>
-        <servlet-class>xin.wangning.TestServlet</servlet-class>
+        <servlet-class>xin.wangning.GccServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>xin.wangning.servlet.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/test</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <display-name>UserFilter</display-name>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>xin.wangning.UserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <url-pattern>/experiment/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
 </web-app>

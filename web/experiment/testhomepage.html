@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>learn</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        div{
+            margin: 10px auto;
+            width: 1200px;
+        }
+        #top{
+            text-align: center;
+        }
+
+        #bottom{
+            height: 100px;
+            background: black;
+        }
+        #container{
+            border: bisque 2px solid;
+            overflow: hidden;
+        }
+        #container .left{
+            border: black 1px solid;
+            width: 250px;
+            height: 800px;
+            float: left;
+        }
+        #container .left ul{
+            margin-left: 20px;
+        }
+        #container .left li:hover{
+            cursor: pointer;
+        }
+        .lock{
+            list-style-image: url("../images/arrow_right.png");
+        }
+        .end{
+            list-style-image: url("../images/end.png");
+        }
+        .open{
+            list-style-image: url("../images/arrow_down.png");
+        }
+        .show{
+            display: none;
+        }
+        #container .left ul ul{
+            margin-left: 20px;
+        }
+        #container .left ul ul ul{
+            margin-left: 20px;
+        }
+        #container .right{
+            border: red 1px solid;
+            width: 800px;
+            height: 800px;
+            float: left;
+        }
+
+    </style>
+    <script src="../jquery-3.3.1.js"></script>
+</head>
+<body>
+<div id="top">
+    <h1>XXXX网</h1>
+</div>
+<div id="container">
+    <div class="left">
+        <ul>
+            <li class="end" name="kcjj">课程简介</li>
+            <li class="end" name="sydh">实验导航</li>
+            <li class="end">教学计划</li>
+            <li class="end">我的反馈</li>
+            <li class="end">教学团队介绍</li>
+            <li class="lock">链表<br>
+                <ul class="lock">
+                    <li class="end">顺序表</li>
+                    <li class="lock open">单链表<br>
+                        <ul>
+                            <li class="end" name="zjjd">增加节点（实验1）</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="end">数组</li>
+            <li class="end">树</li>
+        </ul>
+    </div>
+    <div class="right">
+        <ul>
+            <li class="kcjj">
+                <div>
+                    <h1>这是课程简介</h1>
+                </div>
+            </li>
+            <li class="sydh">
+                <div>
+                    <h1>实验导航</h1>
+                </div>
+            </li>
+            <li class="zjjd">
+                <div>
+                    <a href="singleLinkedList.html">实验</a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<div id="bottom">
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#container .left ul li").click(function (event) {
+            console.log($(this.class))
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            if($(this).hasClass("end")){
+                var name = $(this).attr("name");
+                $('.'+name).show().siblings().hide();
+                return;
+            }
+            $(this).toggleClass("open");
+            $(this).children("ul").toggleClass("show");
+        });
+        $("#container .right ul li").first().siblings().hide();
+    });
+
+</script>
+</body>
+</html>
