@@ -85,23 +85,27 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         Process process = runtime.exec(shell);
         BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
         RunResult runResult = new RunResult();
+        //产生图片数
+        int picNum = 0;
         StringBuilder builder = new StringBuilder();
         String line = "";
         while((line=input.readLine())!=null){
             if(line.contains("dot代码")){
-                creatPNG(path,line.replace("dot代码",""),user);
+                picNum++;
+                creatPNG(path,line.replace("dot代码",""),user,"showlinklist"+String.valueOf(picNum)+".png");
             }else {
                 builder.append(line+"\n");
             }
         }
         runResult.setResult(builder.toString());
-        runResult.setImage("/"+user.getUsername()+"/showlinklist.png");
+        runResult.setDirectoryName("/"+user.getUsername()+"/");
+        runResult.setPicNum(picNum);
         return JSONObject.toJSONString(runResult);
     }
 
     //文件路径以及dot代码
-    public void creatPNG(String path,String code,User user)throws IOException{
-        File file = new File(path+"showlinklist.dot");
+    public void creatPNG(String path,String code,User user,String pictureName)throws IOException{
+        File file = new File(path+pictureName+".dot");
         if(file.exists()){
             file.delete();
         }
@@ -111,7 +115,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         writer.flush();
         writer.close();
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec("dot -Tpng "+file.getAbsolutePath()+" -o "+path+"showlinklist.png");
+        Process process = runtime.exec("dot -Tpng "+file.getAbsolutePath()+" -o "+path+pictureName);
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -119,7 +123,10 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
     }
     class RunResult{
         String result;
-        String image;
+        //带分割
+        String directoryName;
+        //图片名形式一致
+        int picNum;
 
         public String getResult() {
             return result;
@@ -129,12 +136,20 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
             this.result = result;
         }
 
-        public String getImage() {
-            return image;
+        public String getDirectoryName() {
+            return directoryName;
         }
 
-        public void setImage(String image) {
-            this.image = image;
+        public void setDirectoryName(String directoryName) {
+            this.directoryName = directoryName;
+        }
+
+        public int getPicNum() {
+            return picNum;
+        }
+
+        public void setPicNum(int picNum) {
+            this.picNum = picNum;
         }
     }
 }

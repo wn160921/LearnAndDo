@@ -28,4 +28,17 @@ public class UserServlet extends BaseServlet {
             return "fail";
         }
     }
+    public String getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user==null){
+            return "fail";
+        }
+        return user.getUsername();
+    }
+
+    public String deleteUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().removeAttribute("user");
+        return "success";
+    }
+
 }

@@ -60,11 +60,63 @@
         .center .utilBar ul .unselected .fileName{
             background:black;
         }
+        .right #result{
+            width: 78%;
+            float: left;
+        }
+        .right ul{
+            float: left;
+            width: 20%;
+            height: auto;
+        }
+        .right ul li img{
+            width: 25px;
+            height: 25px;
+        }
+        .over{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #66666666;
+            z-index: 1;
+            display: none;
+        }
+        .over .bigPicture{
+            margin: 100px auto;
+            background: white;
+            width: 800px;
+            height: 400px;
+        }
+        .over .bigLeft{
+            position: absolute;
+            top: 50%;
+            margin-top: -150px;
+            margin-left: 50px;
+            left: 0;
+        }
+        .over .bigPicture img{
+            width: 100%;
+            height: 100%;
+        }
+        .over .bigRight{
+            position: absolute;
+            top: 50%;
+            margin-top: -150px;
+            margin-right: 50px;
+            right: 0;
+        }
     </style>
     <script src="../jquery-3.3.1.js"></script>
 </head>
 <body>
 <div>
+    <div class="over">
+        <div class="bigPicture">
+            <img src="" alt="">
+        </div>
+        <img class="bigLeft" src="../images/bigLeft.png" alt="">
+        <img class="bigRight" src="../images/bigRight.png" alt="">
+    </div>
     <div id="top">
 
     </div>
@@ -99,7 +151,9 @@
             <textarea id="result" readonly="readonly" class="editArea">
 
             </textarea>
-        <img id="showlinklist" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532057394&di=75f97fe5339b5e01c62760f94592bb72&imgtype=jpg&er=1&src=http%3A%2F%2Fs8.sinaimg.cn%2Fmiddle%2F8ee3e0acxb0171b491f27%26amp%3B690">
+            <ul>
+
+            </ul>
     </div>
 
 </div>
@@ -118,6 +172,38 @@
             event.returnValue=false;
         }
     });
+    $(".over .bigLeft").click(function (event) {
+        console.log("left")
+        event.stopPropagation();
+        var picNum = $(".over .bigPicture img").attr("picNum");
+        var currSrcName = $(".over .bigPicture img").attr("src");
+        var currSrcIndex = parseInt(currSrcName.substring(currSrcName.indexOf("t")+1,currSrcName.indexOf(".")));
+        console.log("currSrcIndex:"+currSrcIndex);
+        if(currSrcIndex==1){
+            var preSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+picNum+".png";
+        }else{
+            var preSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)-1)+".png";
+        }
+        $(".over .bigPicture img").attr("src",preSrcName);
+    });
+    $(".over .bigRight").click(function (event) {
+        event.stopPropagation();
+        console.log("right");
+        var picNum = $(".over .bigPicture img").attr("picNum");
+        var currSrcName = $(".over .bigPicture img").attr("src");
+        console.log("name:"+currSrcName);
+        var currSrcIndex = parseInt(currSrcName.substring(currSrcName.indexOf("t")+1,currSrcName.indexOf(".")));
+        console.log("currSrcIndex:"+currSrcIndex);
+        if(currSrcIndex==picNum){
+            var nextSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+"1.png";
+        }else{
+            var nextSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)+1)+".png";
+        }
+        $(".over .bigPicture img").attr("src",nextSrcName);
+    });
+    $(".over").click(function () {
+        $(this).hide();
+    });
     $(".run").click(function () {
         //alert("click");
         console.log("click");
@@ -129,8 +215,21 @@
             },
             function (data,status) {
                 console.log(data);
-                $("#result").val($.parseJSON(data).result);
-                $("#showlinklist").attr("src",$.parseJSON(data).image);
+                data = $.parseJSON(data);
+                $("#result").val(data.result);
+                $(".right ul").empty();
+                var i = 1;
+                for(i=1;i<=data.picNum;i++){
+                    var currentPicture = data.directoryName+"showlinklist"+i+".png";
+                    $(".right ul").append("<li><img src='../images/pic.png' curr='"+currentPicture+"' picNum='"+data.picNum+"' alt=\"\"></li>")
+                }
+                $(".right ul li").click(function (event) {
+                    $(".over").show();
+                    $(".over .bigPicture img").attr("src",$(this).children().attr("curr"));
+                    $(".over .bigPicture img").attr("picNum",$(this).children().attr("picNum"));
+
+                });
+
             });
     });
     var codes = "typedef struct Node {\n" +
@@ -298,18 +397,22 @@
         "    LinkList mylist;\n" +
         "    int i,j,temp,forLocate,forGet,forInsert,forDelete,a[]={6,8,16,2,34,56,7,10,22,45};\n" +
         "    InitList_L(mylist);\n" +
-        "\n" +
+        "    int ab = 1;\n" +
         "    cout<<\"我初始化了一个头结点。\"<<endl;\n" +
         "    CreateList_L_Front(mylist,a,10);\n" +
         "    cout<<\"我创建了一个带头结点的单链表，表长为：\"<<ListLength_L(mylist)<<endl;\n" +
         "    cout<<endl<<\"表中的元素依次为：\"<<endl;\n" +
         "    ListTraverse_L(mylist);\n" +
         "    ListVisualization_L(mylist);\n" +
+        "    ListDelete_L(mylist,1,ab);\n" +
+        "    ListTraverse_L(mylist);\n" +
+        "    ListVisualization_L(mylist);\n" +
+        "    ListDelete_L(mylist,1,ab);\n" +
+        "    ListTraverse_L(mylist);\n" +
+        "    ListVisualization_L(mylist);\n" +
         "    DestroyList_L(mylist);\n" +
         "    cout<<\"销毁成功====>\"<<endl;\n" +
-        "}\n" +
-        "\n" +
-        "                        ";
+        "}\n";
     $("#code").val(codes);
     $(".center .utilBar ul li").click(function () {
         $(this).removeClass("unselected").siblings().addClass("unselected");
