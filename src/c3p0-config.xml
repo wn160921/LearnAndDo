@@ -3,7 +3,7 @@
 	<!-- 这是默认配置信息 -->
 	<default-config> 
 		<!-- 连接四大参数配置 -->
-		<property name="jdbcUrl">jdbc:mysql://60.205.214.54:3306/LearnAndDo</property>
+		<property name="jdbcUrl">jdbc:mysql://118.24.125.75:3306/LearnAndDo</property>
 		<property name="driverClass">com.mysql.jdbc.Driver</property>
 		<property name="user">root</property>
 		<property name="password">123456</property>

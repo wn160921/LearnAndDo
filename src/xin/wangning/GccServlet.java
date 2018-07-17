@@ -39,7 +39,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         }
         file1.createNewFile();
         FileWriter fw = new FileWriter(file1);
-        fw.write(code);
+        fw.write(code.replace("\240"," "));
         fw.flush();
         fw.close();
         File file2 = new File(path+"LinkList.h");
@@ -48,36 +48,39 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         }
         file2.createNewFile();
         fw = new FileWriter(file2);
-        fw.write(header);
+        fw.write(header.replace("\240"," "));
         fw.flush();
         fw.close();
         String shell = "g++ "+file1.getAbsoluteFile()+" -o "+path+"code";
         System.out.println(shell);
-        String comResult = compile(shell);
-        System.out.println("comResult:"+comResult+(comResult.equals("")));
+        RunResult comResult = compile(shell);
+        System.out.println("comResult:"+comResult+(comResult.getResult().equals("")));
         PrintWriter pw = response.getWriter();
-        if(comResult.equals("")){
+        if(comResult.getResult().equals("")){
             String run = path+"code";
             String result = run(run,path,user);
             System.out.println("run: "+ result);
             pw.write(result);
         }else {
-            pw.write(comResult);
+            pw.write(JSONObject.toJSONString(comResult));
         }
         pw.flush();
         pw.close();
     }
 
-    public String compile(String shell) throws IOException {
+    public RunResult compile(String shell) throws IOException {
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(shell);
         BufferedReader errorInput = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         StringBuilder builder = new StringBuilder();
+        //好吧，包含
+        RunResult runResult = new RunResult();
         String line = "";
         while((line=errorInput.readLine())!=null){
             builder.append(line);
         }
-        return builder.toString();
+        runResult.setResult(builder.toString());
+        return runResult;
     }
 
     public String run(String shell,String path,User user) throws IOException {
@@ -87,15 +90,46 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         RunResult runResult = new RunResult();
         //产生图片数
         int picNum = 0;
+        //设置防止死循环
+        int linenum = 0;
+        //新建计时线程，防止死循环
+        final boolean[] endlessLoop = {false};
+        Thread thread = new Thread(){
+            public void run(){
+                try {
+                    sleep(5000);
+                    System.out.println("endSleep");
+                    try {
+                        process.destroy();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    endlessLoop[0] =true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
         StringBuilder builder = new StringBuilder();
         String line = "";
         while((line=input.readLine())!=null){
+            linenum++;
+            if(linenum>=150){
+                builder.append("此处省略若干，请检查是否死循环或者减少输出！！！");
+                break;
+            }
             if(line.contains("dot代码")){
                 picNum++;
                 creatPNG(path,line.replace("dot代码",""),user,"showlinklist"+String.valueOf(picNum)+".png");
             }else {
                 builder.append(line+"\n");
             }
+            System.out.println("line:"+line);
+        }
+        if(endlessLoop[0]){
+            builder.append("超时，请检查是否死循环！！！");
         }
         runResult.setResult(builder.toString());
         runResult.setDirectoryName("/"+user.getUsername()+"/");

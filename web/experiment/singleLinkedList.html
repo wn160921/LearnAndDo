@@ -15,50 +15,73 @@
         #top{
             width: 100%;
             height: 50px;
+            text-align: center;
+            letter-spacing: 10px;
         }
-
+        #container{
+            height: 100%;
+            overflow: auto;
+        }
         .left{
+            overflow: auto;
+            height: 100%;
             float: left;
             width: 30%;
-            height: 800px;
+            border: green 2px solid;
         }
         .center{
             position: relative;
             width: 35%;
             float: left;
-            height: 800px;
+            height: 100%;
         }
         .right{
+            overflow: auto;
             float: left;
-            height: 800px;
+            height: 100%;
             width: 32%;
         }
         .run{
             float: right;
         }
         .editArea{
+            border: green 0 solid;
+            resize: none;
             width: 100%;
-            height: 760px;
+            height: 100%;
+            white-space: nowrap;
+        }
+
+        .center .utilBar{
+            overflow: auto;
+            padding: 2px;
+            margin: 2px;
+            background: #666666;
         }
         .center .utilBar ul li{
+            margin-top: 3px;
+            display: none;
             float: left;
         }
         .center .utilBar ul li .fileName{
+            background: gold;
             margin-left: 5px;
-            background: green;
+            color: white;
             cursor: pointer;
         }
-        .center .utilBar ul li .codediv{
+        .center .utilBar ul li .codediv textarea{
             position: absolute;
-            width: 100%;
-            top: 20px;
-            left: 0px;
+            width: 90%;
+            top: 30px;
+            left: 3px;
+            border: 1px green solid;
+
         }
         .center .utilBar ul .unselected .codediv{
             display: none;
         }
         .center .utilBar ul .unselected .fileName{
-            background:black;
+            background: #999999;
         }
         .right #result{
             width: 78%;
@@ -72,6 +95,9 @@
         .right ul li img{
             width: 25px;
             height: 25px;
+        }
+        .right .codediv textarea{
+            white-space: pre-wrap;
         }
         .over{
             position: fixed;
@@ -105,11 +131,36 @@
             margin-right: 50px;
             right: 0;
         }
+
+
+        .left ul{
+            list-style: none;
+        }
+        .left ul li .title{
+            cursor: pointer;
+        }
+        .left ul ul{
+            margin-left: 20px;
+        }
+        .left ul .content{
+            margin:2px 14px;
+            padding: 2px;
+        }
+        .left ul li .codePanel{
+            background:#999999;
+
+        }
+        .left .codePanel{
+            width: 250px;
+            overflow: auto;
+            white-space:nowrap;
+        }
+
     </style>
     <script src="../jquery-3.3.1.js"></script>
 </head>
 <body>
-<div>
+<div id="container">
     <div class="over">
         <div class="bigPicture">
             <img src="" alt="">
@@ -118,10 +169,184 @@
         <img class="bigRight" src="../images/bigRight.png" alt="">
     </div>
     <div id="top">
-
+        <h1>实验一  增加节点</h1>
     </div>
     <div class="left">
+        <ul>
+            <li>
+                <div class="title"><img src="../images/arrow_down.png" alt="">实验目标</div>
+                <div class="content">
+                    根据实验步骤中所提供的源码，完善LinkList.h和mian.c”两个程序文件，完成在一个链表中指定地点插入一个节点的工作，并用可视化的方法将插入前，插入后的效果展示出来。
+                </div>
+            </li>
+            <li>
+                <div class="title"><img src="../images/arrow_down.png" alt="">实验步骤</div>
+                <div>
+                    <ul>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">1 创建LinkList.h</div>
+                            <div class="content">
+                                <div class="readyCode"></div>
+                                <button class="actiontBtn1">创建</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">2 加入引用库代码(#include)</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">3 声明节点的结构类型(typedef struct Node)</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#header">
 
+typedef struct Node {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ElemType data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;struct  Node  *next;<br>
+}LNode,*LinkList;<br>
+
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">4 初始化结构体(void InitList_L(LinkList &L))</div>
+                            <div class="content">
+                                书中P45，算法2.12
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">5 头插法创建单链表(CreateList_L_Front)</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#header">
+
+void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LinkList p;   int i;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;L=(LinkList)malloc(sizeof(LNode));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;L->next=NULL;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for(i=n-1;i>=0;i--)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p=(LinkList)malloc(sizeof(LNode));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->data=a[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->next=L->next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L->next=p;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">6 遍历输出各节点(ListTraverse_L(mylist);)</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#header">
+void ListTraverse_L(LinkList L)<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LinkList p=L-&gt;next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while(p)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt; setw(6)&lt;&lt;p-&gt;data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p=p-&gt;next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;endl;<br>
+}<br>
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">7 插入元素操作</div>
+                            <div class="content">
+                                书P47页算法2.15
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">8 插入可视化组件（必须）</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#header">
+void ListVisualization_L(LinkList L)<br>
+{   int temp=0;<br>
+cout&lt;&lt;endl;<br>
+LinkList p=L;<br>
+if(p&amp;&amp;!(p-&gt;next))<br>
+{<br>
+cout&lt;&lt;&quot;dot代码 digraph g { rankdir=LR; node [shape = \&quot;record\&quot; width = 0.5];node0  [label = \&quot;&lt;data&gt; //// | &lt;next&gt;  ^\&quot;];&quot;;<br>
+}<br>
+else if(p&amp;&amp;(p-&gt;next))<br>
+{<br>
+cout&lt;&lt;&quot;dot代码 digraph g { rankdir=LR; node [shape = \&quot;record\&quot; width = 0.5];node0  [label = \&quot;&lt;data&gt; //// | &lt;next&gt;  \&quot;];&quot;;<br>
+while(p-&gt;next)<br>
+{<br>
+printf(&quot;node%d [label =\&quot;&lt;data&gt; %d| &lt;next&gt;\&quot;]  node%d:next -&gt; node%d:data;&quot;,temp+1, p-&gt;next-&gt;data,temp,temp+1);<br>
+p=p-&gt;next;<br>
+temp++;<br>
+}<br>
+}<br>
+cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
+}<br>
+
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">9 创建main.c文件</div>
+                            <div class="content">
+                                <button class="actiontBtn2">创建</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">10 插入#include</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#code">
+typedef  int ElemType;<br>
+# include &quot;stdlib.h&quot;<br>
+# include &quot;iostream&quot;<br>
+# include &quot;iomanip&quot;<br>
+using namespace std;<br>
+# include &quot;LinkList.h&quot;<br>
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">11 参照展开提示内容编写main.c文件</div>
+                            <div class="content">
+                                <div class="codePanel">
+int main()<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LinkList mylist;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int i,j,temp,forLocate,forGet,forInsert,forDelete,a[]={6,8,16,2,34,56,7,10,22,45};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;InitList_L(mylist);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CreateList_L_Front(mylist,a,10);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ListTraverse_L(mylist);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ListVisualization_L(mylist);<br>
+}<br>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">12 击运行按钮，看看效果，是否输出数据，是否出图。</div>
+                            <div class="content"></div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">13 加入一个节</div>
+                            <div class="content"></div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">14再次运行</div>
+                            <div class="content"></div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
     </div>
     <div class="center">
         <div class="utilBar">
@@ -159,7 +384,34 @@
 </div>
 
 <script>
-    $("#code").keydown(function (e) {
+    $("body").height($(window).height());
+    //主要是left的代码
+    $(".left .title").click(function (event) {
+        var checkOpen = $(this).next().css("display");
+        console.log("brother display"+checkOpen);
+        if(checkOpen!="none"){
+            $(this).next().hide();
+            $(this).children("img").attr("src","../images/arrow_right.png");
+        }else {
+            $(this).next().show();
+            $(this).children("img").attr("src","../images/arrow_down.png");
+        }
+    });
+    $(".actiontBtn1").click(function () {
+        $(".center .utilBar ul li").first().show().click();
+    });
+    $(".actiontBtn2").click(function () {
+        $(".center .utilBar ul li").first().next().show().click();
+    });
+    $(".left .insertBtn").click(function () {
+        var code = $(this).prev().text();
+        console.log("code:"+code);
+        var textarea = $($(this).prev().attr("aim"));
+        console.log(textarea);
+        textarea.val($.trim(textarea.val())+code+"\n");
+    });
+
+    $("textarea").keydown(function (e) {
         event = e||window.event;
         console.log(event.which);
         if(event.keyCode===9){
@@ -184,7 +436,7 @@
         }else{
             var preSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)-1)+".png";
         }
-        $(".over .bigPicture img").attr("src",preSrcName);
+        $(".over .bigPicture img").attr("src",preSrcName+"?temp=" + Math.random());
     });
     $(".over .bigRight").click(function (event) {
         event.stopPropagation();
@@ -199,7 +451,7 @@
         }else{
             var nextSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)+1)+".png";
         }
-        $(".over .bigPicture img").attr("src",nextSrcName);
+        $(".over .bigPicture img").attr("src",nextSrcName+"?temp=" + Math.random());
     });
     $(".over").click(function () {
         $(this).hide();
@@ -208,6 +460,8 @@
         //alert("click");
         console.log("click");
         console.log("code is:"+$("#code").val());
+        $("#result").val("");
+        $(".right ul").empty();
         $.post("../test",
             {
                 "code":$("#code").val(),
@@ -220,7 +474,7 @@
                 $(".right ul").empty();
                 var i = 1;
                 for(i=1;i<=data.picNum;i++){
-                    var currentPicture = data.directoryName+"showlinklist"+i+".png";
+                    var currentPicture = data.directoryName+"showlinklist"+i+".png"+"?temp=" + Math.random();
                     $(".right ul").append("<li><img src='../images/pic.png' curr='"+currentPicture+"' picNum='"+data.picNum+"' alt=\"\"></li>")
                 }
                 $(".right ul li").click(function (event) {
@@ -232,188 +486,7 @@
 
             });
     });
-    var codes = "typedef struct Node {\n" +
-        "   ElemType data;\n" +
-        "   struct  Node  *next;\n" +
-        "}LNode,*LinkList;                 // LinkList为结构体指针类型\n" +
-        "\n" +
-        "void InitList_L(LinkList &L)\n" +
-        "    {\n" +
-        "\t\tL=(LNode *)malloc(sizeof(LNode));  // 申请存放一个结点数据所需要的内在空间\n" +
-        "\t\tif(!L)   exit(1);                        // 存储分配失败\n" +
-        "        L->next=NULL;                            // 表头结点的指针域置空\n" +
-        "\t}// InitList_L\n" +
-        "\n" +
-        "int ListLength_L( LinkList L )\n" +
-        "\t{     // L为带头结点的链表的头指针，本函数返回L所指链表的长度\n" +
-        "  \t\tLinkList  p;\n" +
-        "\t\tint k=0;\n" +
-        "\t\tp=L->next;                             // p指向链表中的第一个结点\n" +
-        " \t\t while(p)\n" +
-        "  \t\t { k++;  p=p->next; }              // k计非空结点数\n" +
-        "         return k;\n" +
-        "\t}// ListLength_L\n" +
-        "\n" +
-        "LNode *LocateElem_L( LinkList L,ElemType e)\n" +
-        "\t{  // 在L所指的单链表中查找第一个值和e 相等的结点，若存在，则返回其指针；\n" +
-        "\t\t// 否则返回空指针\n" +
-        " \t\t LinkList  p;\n" +
-        " \t\t p=L->next;                               // p指向链表中的第一个结点\n" +
-        "  \t\t while (p&&p->data!=e ) p=p->next;\n" +
-        "  \t\t return p;\n" +
-        "\t}// LocateElem_L\n" +
-        "\n" +
-        "int LocateElem_L_2( LinkList L,ElemType e)\n" +
-        "\t{  // 在L所指的单链表中查找第一个值和e相等的结点，若存在，则返回元素顺序(返回值+2为真实顺序)，否则返回0\n" +
-        " \t\t int i=0;\n" +
-        "         LinkList  p;\n" +
-        " \t\t p=L->next;                               // p指向链表中的第一个结点\n" +
-        "  \t\t while (p&&p->data!=e) {p=p->next;i++;}\n" +
-        "  \t\t return i;\n" +
-        "\t}// LocateElem_L_2\n" +
-        "\n" +
-        "\n" +
-        "\n" +
-        "bool ListInsert_L( LinkList &L, int i, ElemType e)\n" +
-        "\t{    //在带有头结点的单链表L中的第i个结点之前插入元素e\n" +
-        "\t\tLinkList p,s;\n" +
-        "  \t\tint j;\n" +
-        "  \t\tp=L;  j=0;\n" +
-        "  \t\twhile(p->next&&j<i-1)  { p=p->next; j++; }   // 寻找第i-1个结点,并让p指向此结点\n" +
-        "  \t\tif(j!=i-1)   return false;                   // i的位置不合理\n" +
-        "  \t\tif((s=(LNode *)malloc(sizeof(LNode)))==NULL) exit(1);  // 存储分配失败\n" +
-        "  \t\ts->data=e;\n" +
-        "  \t\ts->next=p->next;  p->next=s;                  // 插入新结点\n" +
-        "  \t\treturn true;\n" +
-        " \t}// ListInsert_L\n" +
-        "\n" +
-        "bool ListDelete_L( LinkList &L, int i, ElemType &e)\n" +
-        "\t{    // 删除带有头结点的单链表L中的第i个结点，并让e返回其值\n" +
-        "\t\tLinkList p,q;\n" +
-        "\t    int j;\n" +
-        "  \t\tp=L;  j=0;\n" +
-        " \t\twhile(p->next->next&&j<i-1){ p=p->next; j++; } //寻找第i-1个结点,并让p指向此结点\n" +
-        "  \t\tif(j!=i-1)   return false;                     // i的位置不合理\n" +
-        "  \t\tq=p->next;                                     // q指向其后继\n" +
-        "\t\tp->next=q->next;                               // 删除q所指结点\n" +
-        "\t\te=q->data;    free(q);\n" +
-        "  \t\treturn true;\n" +
-        " \t}// ListDelete_L\n" +
-        "\n" +
-        "bool GetElem_L(LinkList L,int i, ElemType &e)\n" +
-        "\t{    // 取出单链表L中第i个元素，并用e返回其值\n" +
-        "\t\tLinkList p;\n" +
-        "  \t\tint j;\n" +
-        "  \t\tp=L;  j=0;\n" +
-        "\t\twhile(p->next&&j<i){ p=p->next; j++; }  // 寻找第i个结点,并让p指向此结点\n" +
-        " \t\t if(j!=i)   return false;                      // i的位置不合理\n" +
-        "  \t\t e=p->data;                                     // 被取元素的值赋给e\n" +
-        " \t\t return true;\n" +
-        "    }// GetElem_L\n" +
-        "\n" +
-        "void CreateList_L_Rear(LinkList &L,ElemType a[],int n )\n" +
-        "\t{   // 已知一维数组A[n]中存有线性表的数据元素，利用尾插法创建单链表L\n" +
-        "   \t\tLinkList p,q;   int i;\n" +
-        "\t  \tL=(LinkList)malloc(sizeof(LNode));    // 创建立头结点\n" +
-        "\t\tq=L;                                // q始终指向尾结点，开始时尾结点也是头结点\n" +
-        "\t\tfor(i=0;i<n;i++)\n" +
-        "    \t{   p=(LinkList)malloc(sizeof(LNode));          // 创建新结点\n" +
-        "            p->data=a[i];                               // 赋元素值\n" +
-        "            q->next=p;                                  // 插入在尾结点之后\n" +
-        "            q=p;                                         // q指向新的表尾\n" +
-        " \t    }\n" +
-        "   \t\tq->next=NULL;                                    // 表尾结点next域置空\n" +
-        "     }// CreateList_L_Rear\n" +
-        "\n" +
-        "void CreateList_L_Front(LinkList &L,ElemType a[],int n )\n" +
-        "\t{    // 已知一维数组A[n]中存有线性表的数据元素，利用头插法创建单链表L\n" +
-        "   \t\tLinkList p;   int i;\n" +
-        "\t\tL=(LinkList)malloc(sizeof(LNode));              //创建立头结点\n" +
-        "\t\tL->next=NULL;\n" +
-        "\t\tfor(i=n-1;i>=0;i--)\n" +
-        "\t\t{    p=(LinkList)malloc(sizeof(LNode));           //创建新结点\n" +
-        "\t\t     p->data=a[i];                                // 赋元素值\n" +
-        "        \t p->next=L->next;                          // 插入在头结点和第一个结点之间\n" +
-        "       \t     L->next=p;\n" +
-        "        }\n" +
-        "\t}// CreateList_L_Front\n" +
-        "\n" +
-        "void ListTraverse_L(LinkList L)\n" +
-        "\t{\n" +
-        "\t\t LinkList p=L->next;\n" +
-        " \t\t while(p)\n" +
-        "  \t  {  cout<< setw(6)<<p->data;\n" +
-        "         p=p->next;\n" +
-        "      }\n" +
-        "\t\tcout<<endl;\n" +
-        "\t}// ListTraverse_L\n" +
-        "\n" +
-        "void DestroyList_L(LinkList &L )\n" +
-        "\t{\n" +
-        "  \t\tLinkList p,p1;\n" +
-        " \t\t p=L;\n" +
-        "  \t\twhile(p)\n" +
-        "  \t\t{   p1=p;\n" +
-        "    \t\tp=p->next;\n" +
-        "    \t\tfree(p1);\n" +
-        "        }\n" +
-        "  \t\t\t L=NULL;\n" +
-        "    }// DestroyList_L\n" +
-        "\n" +
-        "void ListVisualization_L(LinkList L)\n" +
-        "{   int temp=0;\n" +
-        "    cout<<endl;\n" +
-        "    LinkList p=L;\n" +
-        "    if( false )\n" +
-        "    {  }\n" +
-        "    else if(p&&!(p->next))\n" +
-        "    {\n" +
-        "\t\tcout<<\"dot代码 digraph g { rankdir=LR;\\n node [shape = \\\"record\\\" width = 0.5];node0  [label = \\\"<data> //// | <next>  ^\\\"];\";\n" +
-        "\t}\n" +
-        "\telse if(p&&(p->next))\n" +
-        "    {\n" +
-        "        cout<<\"dot代码 digraph g { rankdir=LR; node [shape = \\\"record\\\" width = 0.5];node0  [label = \\\"<data> //// | <next>  \\\"];\";\n" +
-        "\t   while(p->next)\n" +
-        "\t   {\n" +
-        "        printf(\"node%d [label =\\\"<data> %d| <next>\\\"]  node%d:next -> node%d:data;\",temp+1, p->next->data,temp,temp+1);\n" +
-        "\t\t p=p->next;\n" +
-        "\t\t temp++;\n" +
-        "\t   }\n" +
-        "    }\n" +
-        "\tcout<<\"}\"<<endl;\n" +
-        "\n" +
-        "}\n" +
-        "\n";
-    $("#header").val(codes);
-    codes = "typedef  int ElemType;\n" +
-        "# include \"stdlib.h\"\n" +
-        "# include \"iostream\"\n" +
-        "# include \"iomanip\"\n" +
-        "using namespace std;\n" +
-        "# include \"LinkList.h\"\n" +
-        "\n" +
-        "int  main()\n" +
-        "{\n" +
-        "    LinkList mylist;\n" +
-        "    int i,j,temp,forLocate,forGet,forInsert,forDelete,a[]={6,8,16,2,34,56,7,10,22,45};\n" +
-        "    InitList_L(mylist);\n" +
-        "    int ab = 1;\n" +
-        "    cout<<\"我初始化了一个头结点。\"<<endl;\n" +
-        "    CreateList_L_Front(mylist,a,10);\n" +
-        "    cout<<\"我创建了一个带头结点的单链表，表长为：\"<<ListLength_L(mylist)<<endl;\n" +
-        "    cout<<endl<<\"表中的元素依次为：\"<<endl;\n" +
-        "    ListTraverse_L(mylist);\n" +
-        "    ListVisualization_L(mylist);\n" +
-        "    ListDelete_L(mylist,1,ab);\n" +
-        "    ListTraverse_L(mylist);\n" +
-        "    ListVisualization_L(mylist);\n" +
-        "    ListDelete_L(mylist,1,ab);\n" +
-        "    ListTraverse_L(mylist);\n" +
-        "    ListVisualization_L(mylist);\n" +
-        "    DestroyList_L(mylist);\n" +
-        "    cout<<\"销毁成功====>\"<<endl;\n" +
-        "}\n";
-    $("#code").val(codes);
+
     $(".center .utilBar ul li").click(function () {
         $(this).removeClass("unselected").siblings().addClass("unselected");
     })

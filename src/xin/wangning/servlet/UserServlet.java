@@ -30,6 +30,7 @@ public class UserServlet extends BaseServlet {
     }
     public String getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
+        System.out.println("输出用户信息");
         if(user==null){
             return "fail";
         }
@@ -37,6 +38,7 @@ public class UserServlet extends BaseServlet {
     }
 
     public String deleteUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("删除用户信息");
         req.getSession().removeAttribute("user");
         return "success";
     }
