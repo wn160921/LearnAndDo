@@ -53,7 +53,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         fw.close();
         String shell = "g++ "+file1.getAbsoluteFile()+" -o "+path+"code";
         System.out.println(shell);
-        RunResult comResult = compile(shell);
+        RunResult comResult = compile(shell,path);
         System.out.println("comResult:"+comResult+(comResult.getResult().equals("")));
         PrintWriter pw = response.getWriter();
         if(comResult.getResult().equals("")){
@@ -68,7 +68,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         pw.close();
     }
 
-    public RunResult compile(String shell) throws IOException {
+    public RunResult compile(String shell,String toReplace) throws IOException {
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(shell);
         BufferedReader errorInput = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -77,9 +77,9 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         RunResult runResult = new RunResult();
         String line = "";
         while((line=errorInput.readLine())!=null){
-            builder.append(line);
+            builder.append(line+"\n");
         }
-        runResult.setResult(builder.toString());
+        runResult.setResult(builder.toString().replace(toReplace,""));
         return runResult;
     }
 

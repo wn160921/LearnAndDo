@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <h2>绘制链表</h2>
+    <canvas id="canvas_1" width="1000" height="500" style="box-shadow: 0px 0px 10px black;">
+        当前浏览器不支持 canvas
+    </canvas>
+</div>
+</body>
+<script type="text/javascript">
+    function drawArrow(x,y){
+        ctx.beginPath();
+        //设置绘制起点
+        ctx.moveTo(x,y);
+        //设置绘制下一个点
+        ctx.lineTo(x+2.5,y);
+        ctx.lineTo(x+2.5,y+22);
+        ctx.lineTo(x+3.75,y+22);
+        ctx.lineTo(x+1.25,y+28);
+        ctx.lineTo(x-1.25,y+22);
+        ctx.lineTo(x,y+22);
+        //结束绘制
+        ctx.closePath();
+        //设置线的宽度
+        ctx.lineWidth = 5;
+        //设置绘制的样式
+        ctx.strokeStyle = "#999";
+        //绘制点之间的线路
+        ctx.stroke();
+    }
+    
+    function draw() {
+        
+    }
+    var a = new Array('1','2','3','4','5');
+
+    function drawLinkList(data) {
+        var canvas_1 = document.getElementById("canvas_1");
+        // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
+        var ctx = canvas_1.getContext("2d");ctx.fillStyle="#999";
+        ctx.fillRect(10,10,40,40);
+        ctx.strokeStyle="#999";
+        ctx.strokeRect(50,11,40,38);
+        var length = data.length;
+        if(length==1){
+
+        }
+
+    }
+
+
+    // 获取 canvas 元素对应的 DOM 对象
+    var canvas_1 = document.getElementById("canvas_1");
+
+    // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
+    var ctx = canvas_1.getContext("2d");
+    ctx.fillStyle="#999";
+    ctx.fillRect(10,10,40,40);
+    ctx.strokeStyle="#999";
+    ctx.strokeRect(50,11,40,38);
+    drawArrow(65,55);
+
+</script>
+</html>

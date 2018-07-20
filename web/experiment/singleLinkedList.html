@@ -13,10 +13,16 @@
             list-style: none;
         }
         #top{
-            width: 100%;
-            height: 50px;
             text-align: center;
+            position: relative;
+            width: 100%;
+            height: 70px;
+        }
+        #top h1{
             letter-spacing: 10px;
+        }
+        #top .useInfo{
+
         }
         #container{
             height: 100%;
@@ -26,55 +32,71 @@
             overflow: auto;
             height: 100%;
             float: left;
-            width: 30%;
+            width: 32%;
             border: green 2px solid;
+        }
+        .leftHandle{
+            width: 4px;
+            /*background-color: red;*/
+            float: left;
+            height: 100%;
+            cursor:ew-resize;
         }
         .center{
             position: relative;
-            width: 35%;
+            width: 34%;
             float: left;
             height: 100%;
         }
+        .centerHandle{
+            float: left;
+            width: 4px;
+            height: 100%;
+            /*background-color: red;*/
+            cursor:ew-resize;
+        }
         .right{
-            overflow: auto;
             float: left;
             height: 100%;
             width: 32%;
+            border:green 1px solid;
         }
+
         .run{
             float: right;
         }
         .editArea{
-            border: green 0 solid;
             resize: none;
-            width: 100%;
-            height: 100%;
             white-space: nowrap;
         }
 
         .center .utilBar{
             overflow: auto;
-            padding: 2px;
             margin: 2px;
-            background: #666666;
+            background: #999999;
         }
         .center .utilBar ul li{
-            margin-top: 3px;
+            text-align: center;
             display: none;
             float: left;
         }
         .center .utilBar ul li .fileName{
-            background: gold;
-            margin-left: 5px;
-            color: white;
+            color: black;
+            padding-left: 2px;
+            padding-right: 2px;
+            background: white;
+            line-height: 30px;
             cursor: pointer;
         }
         .center .utilBar ul li .codediv textarea{
             position: absolute;
-            width: 90%;
+            width: 98%;
+            height: 100%;
             top: 30px;
             left: 3px;
-            border: 1px green solid;
+            border-left: 1px green solid;
+            border-right: 1px green solid;
+            border-bottom: 1px green solid;
 
         }
         .center .utilBar ul .unselected .codediv{
@@ -84,19 +106,21 @@
             background: #999999;
         }
         .right #result{
-            width: 78%;
+            width: 84%;
             float: left;
         }
         .right ul{
             float: left;
-            width: 20%;
+            width: 15%;
             height: auto;
         }
         .right ul li img{
             width: 25px;
             height: 25px;
         }
-        .right .codediv textarea{
+        .right textarea{
+            height: 98%;
+            border: green 1px solid;
             white-space: pre-wrap;
         }
         .over{
@@ -155,7 +179,17 @@
             overflow: auto;
             white-space:nowrap;
         }
+        .left .cueContent{
+            padding: 2px;
+            display: none;
+        }
+        .main{
+            color: #ffc01b;
+        }
+        .left .check{
+            border: #ffc01b 1px solid;
 
+        }
     </style>
     <script src="../jquery-3.3.1.js"></script>
 </head>
@@ -170,35 +204,38 @@
     </div>
     <div id="top">
         <h1>实验一  增加节点</h1>
+        <div class="useInfo">
+            已用时间：<span id="time"></span>   剩余提示个数 <span class="cueRest">2</span>
+        </div>
     </div>
     <div class="left">
         <ul>
             <li>
-                <div class="title"><img src="../images/arrow_down.png" alt="">实验目标</div>
+                <div class="title"><img src="../images/arrow_down.png" alt=""><strong>【实验目标】</strong></div>
                 <div class="content">
                     根据实验步骤中所提供的源码，完善LinkList.h和mian.c”两个程序文件，完成在一个链表中指定地点插入一个节点的工作，并用可视化的方法将插入前，插入后的效果展示出来。
                 </div>
             </li>
             <li>
-                <div class="title"><img src="../images/arrow_down.png" alt="">实验步骤</div>
+                <div class="title"><img src="../images/arrow_down.png" alt=""><strong>【实验步骤】</strong></div>
                 <div>
                     <ul>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">1 创建LinkList.h</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_1 创建LinkList.h</div>
                             <div class="content">
                                 <div class="readyCode"></div>
                                 <button class="actiontBtn1">创建</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">2 加入引用库代码(#include)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_2 加入引用库代码(#include)</div>
                             <div class="content">
                                 <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
                                 <button class="insertBtn">插入</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">3 声明节点的结构类型(typedef struct Node)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_3 声明节点的结构类型(typedef struct Node)</div>
                             <div class="content">
                                 <div class="codePanel" aim="#header">
 
@@ -212,13 +249,16 @@ typedef struct Node {<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">4 初始化结构体(void InitList_L(LinkList &L))</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_4 初始化结构体(void InitList_L(LinkList &L))</div>
                             <div class="content">
-                                书中P45，算法2.12
+                                <div class="cueContent">
+                                    书中P45，算法2.12
+                                </div>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">5 头插法创建单链表(CreateList_L_Front)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_5 头插法创建单链表(CreateList_L_Front)</div>
                             <div class="content">
                                 <div class="codePanel" aim="#header">
 
@@ -242,7 +282,7 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">6 遍历输出各节点(ListTraverse_L(mylist);)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_6 遍历输出各节点(ListTraverse_L(mylist);)</div>
                             <div class="content">
                                 <div class="codePanel" aim="#header">
 void ListTraverse_L(LinkList L)<br>
@@ -260,13 +300,16 @@ void ListTraverse_L(LinkList L)<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">7 插入元素操作</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_7 插入元素操作</div>
                             <div class="content">
-                                书P47页算法2.15
+                                <div class="cueContent">
+                                    书P47页算法2.15
+                                </div>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">8 插入可视化组件（必须）</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_8 插入可视化组件（必须）</div>
                             <div class="content">
                                 <div class="codePanel" aim="#header">
 void ListVisualization_L(LinkList L)<br>
@@ -295,13 +338,13 @@ cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">9 创建main.c文件</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_9 创建main.c文件</div>
                             <div class="content">
                                 <button class="actiontBtn2">创建</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">10 插入#include</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_10 插入#include</div>
                             <div class="content">
                                 <div class="codePanel" aim="#code">
 typedef  int ElemType;<br>
@@ -315,38 +358,125 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">11 参照展开提示内容编写main.c文件</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_11 创建main方法</div>
                             <div class="content">
-                                <div class="codePanel">
-int main()<br>
-{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;LinkList mylist;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;int i,j,temp,forLocate,forGet,forInsert,forDelete,a[]={6,8,16,2,34,56,7,10,22,45};<br>
-&nbsp;&nbsp;&nbsp;&nbsp;InitList_L(mylist);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;CreateList_L_Front(mylist,a,10);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;ListTraverse_L(mylist);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;ListVisualization_L(mylist);<br>
-}<br>
+                                <div class="cueContent">
+                                    int main(){<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+                                    }<br>
                                 </div>
-
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">12 击运行按钮，看看效果，是否输出数据，是否出图。</div>
-                            <div class="content"></div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_12 调用LinkList.h中的函数声明mylist</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    LinkList mylist;
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">13 加入一个节</div>
-                            <div class="content"></div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_13 调用LinkList.h中的函数初始化mylist</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    InitList_L(mylist);
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">14再次运行</div>
-                            <div class="content"></div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_14 创建含有五个值的整形数组a[]</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    int a[]={6,8,16,2,34};
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_15 调用LinkList.h中的函数，头插法创建链表</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    CreateList_L_Front(mylist,a,5);
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_16 调用LinkList.h中的函数，遍历打印链表</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    ListTraverse_L(mylist);
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_17 加入可视化功能</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#code">
+                                    ListVisualization_L(mylist);
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_18 运行程序</div>
+                            <div class="content">
+                                <!--记分内容-->
+                                <div class="check">
+                                    <div>是否成功执行？</div>
+                                    <div>是否成功打印五个元素的链表？</div>
+                                    <div>图像是否正确</div>
+                                </div>
+                                <button class="checkRun">运行</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_19 调用LinkList.h中的函数，在链表的第二个元素后面插入一个新的元素’888‘</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    ListInsert_L(mylist,2,888);
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_20 调用LinkList.h中的函数，遍历打印链表</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    ListTraverse_L(mylist);
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_21 加入可视化功能</div>
+                            <div class="content">
+                                <div class="codePanel" aim="#code">
+                                    ListVisualization_L(mylist);
+                                </div>
+                                <button class="insertBtn">插入</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_22 运行，看是否插入成功</div>
+                            <div class="content">
+                                <div class="check">
+                                    运行是否成功
+                                </div>
+                                <button class="checkRun">运行</button>
+                            </div>
                         </li>
                     </ul>
                 </div>
             </li>
         </ul>
+    </div>
+    <div class="leftHandle">
+
     </div>
     <div class="center">
         <div class="utilBar">
@@ -361,7 +491,7 @@ int main()<br>
                     </div>
                 </li>
                 <li>
-                    <div class="fileName">main.c</div>
+                    <div class="fileName">code.c</div>
                     <div class="codediv">
                         <textarea id="code" spellcheck="false" class="editArea">
 
@@ -372,6 +502,9 @@ int main()<br>
         </div>
 
     </div>
+    <div class="centerHandle">
+
+    </div>
     <div class="right">
             <textarea id="result" readonly="readonly" class="editArea">
 
@@ -380,10 +513,145 @@ int main()<br>
 
             </ul>
     </div>
-
 </div>
-
 <script>
+    //计时起
+    var timeSpan = document.getElementById("time");
+    var n= 0, timer=null;
+    //开始计时
+    function startTime() {
+        console.log("start timer");
+        clearInterval(timer);
+        timer=setInterval(function () {
+            n++;
+            var m=parseInt(n/60);
+            var s=parseInt(n%60);
+            timeSpan.innerHTML=toDub(m)+":"+toDub(s);
+        },1000);
+    };
+    //暂停并且清空计时器
+    function stop() {
+        clearInterval(timer);
+    }
+    //重置
+    function reSet() {
+        timeSpan.innerHTML="00:00";
+        n=0;
+    }
+    //补零
+    function toDub(n){
+        return n<10?"0"+n:""+n;
+    }
+    startTime();
+
+    //边框位置
+    var leftDrag = false;
+    var centerDrag = false;
+    var mouseX=0;
+    $(".leftHandle").mousedown(function (event) {
+        $(".left").css("overflow","hidden");
+        $(".center").css("overflow","hidden");
+        mouseX = event.pageX;
+        leftDrag = true;
+
+    });
+    $(".leftHandle").on("mouseup",function () {
+        leftDrag = false;
+        $(".left").css("overflow","auto");
+        $(".center").css("overflow","auto");
+    });
+    $(".left").on("mouseup",function () {
+        leftDrag = false;
+        $(".left").css("overflow","auto");
+        $(".center").css("overflow","auto");
+    });
+    $(".left").mousemove(function (event) {
+        if(leftDrag){
+            a=event.pageX-mouseX;
+            leftHandleMove(a);
+            mouseX=event.pageX;
+        }
+    });
+    $(".center").on("mouseup",function () {
+        leftDrag = false;
+        $(".left").css("overflow","auto");
+        $(".center").css("overflow","auto");
+    });
+    $(".center").mousemove(function (event) {
+        if(leftDrag){
+            a=event.pageX-mouseX;
+            leftHandleMove(a);
+            mouseX=event.pageX;
+        }
+        if(centerDrag){
+            a=event.pageX-mouseX;
+            centerHandleMove(a);
+            mouseX=event.pageX;
+        }
+    });
+    $(".leftHandle").mousemove(function (event) {
+        if(leftDrag){
+            a=event.pageX-mouseX;
+            leftHandleMove(a);
+            mouseX=event.pageX;
+        }
+    });
+    function leftHandleMove(X) {
+        var leftW = $(".left").width();
+        console.log("f"+leftW);
+        leftW = leftW + X;
+        console.log("s"+leftW);
+        var centerW = $(".center").width();
+        centerW = centerW - X;
+        $(".left").width(leftW);
+        console.log("gaibianhpu"+$(".left").width());
+        $(".center").width(centerW);
+    }
+  //照着上面再来一次，有机会再整合
+    $(".centerHandle").mousedown(function (event) {
+        $(".right").css("overflow","hidden");
+        $(".center").css("overflow","hidden");
+        mouseX = event.pageX;
+        centerDrag = true;
+
+    });
+    $(".centerHandle").on("mouseup",function () {
+        centerDrag = false;
+        $(".right").css("overflow","auto");
+        $(".center").css("overflow","auto");
+    });
+    $(".right").on("mouseup",function () {
+        centerDrag = false;
+        $(".right").css("overflow","auto");
+        $(".center").css("overflow","auto");
+    });
+    $(".right").mousemove(function (event) {
+        if(centerDrag){
+            a=event.pageX-mouseX;
+            centerHandleMove(a);
+            mouseX=event.pageX;
+        }
+    });
+    $(".centerHandle").mousemove(function (event) {
+        if(centerDrag){
+            a=event.pageX-mouseX;
+            centerHandleMove(a);
+            mouseX=event.pageX;
+        }
+    });
+    function centerHandleMove(X) {
+        var rightW = $(".right").width();
+        rightW = rightW - X;
+        var centerW = $(".center").width();
+        centerW = centerW + X;
+        $(".right").width(rightW);
+        $(".center").width(centerW);
+    }
+
+
+
+    //提示次数
+    var cueNum = 0;
     $("body").height($(window).height());
     //主要是left的代码
     $(".left .title").click(function (event) {
@@ -397,19 +665,67 @@ int main()<br>
             $(this).children("img").attr("src","../images/arrow_down.png");
         }
     });
+
+    function insertAfterCursor(area,data){
+        console.log(area);
+        area = document.getElementById(area);
+        $(area).focus();
+        console.log("focus");
+        console.log(area.selectionStart);
+        if(document.selection){
+            console.log("位置1");
+            var sel = document.selection().createRange();
+            sel.txt = data;
+        }else if(typeof area.selectionStart==="number"&&typeof area.selectionEnd==="number"){
+            console.log('location 2');
+            var startPos = area.selectionStart,
+                endPos = area.selectionEnd,
+                curPos = startPos,
+                tempStr = area.value;
+            var value = tempStr.substring(0,startPos)+data+tempStr.substring(endPos,tempStr.length);
+            area.value=value;
+            curPos+=value.length;
+            area.selectionStart = area.selectionEnd = curPos;
+        }else {
+            console.log("location3");
+            area.value=area.value+data;
+        }
+    }
+
     $(".actiontBtn1").click(function () {
         $(".center .utilBar ul li").first().show().click();
+        $(this).parent().prev().css("color","#cccccc")
+        $(this).hide();
     });
     $(".actiontBtn2").click(function () {
         $(".center .utilBar ul li").first().next().show().click();
+        $(this).parent().prev().css("color","#cccccc")
+        $(this).hide();
     });
     $(".left .insertBtn").click(function () {
         var code = $(this).prev().text();
         console.log("code:"+code);
-        var textarea = $($(this).prev().attr("aim"));
+        var textarea = $(this).prev().attr("aim");
+        insertAfterCursor(textarea.substring(1,textarea.length),code);
         console.log(textarea);
-        textarea.val($.trim(textarea.val())+code+"\n");
+        $(this).prev().css("background-color","#cccccc");
+        $(this).parent().prev().css("color","#cccccc")
+        $(this).hide()
     });
+    $(".left .cueBtn").click(function () {
+        $(this).prev().show();
+        $(this).prev().css("background-color","#cccccc")
+        $(this).hide();
+        cueNum++;
+        //标题变灰
+        $(this).parent().prev().css("color","#cccccc")
+        $("#top .cueRest").text(10-cueNum);
+    });
+    $(".left .checkRun").click(function () {
+        $(".run").click();
+
+    });
+
 
     $("textarea").keydown(function (e) {
         event = e||window.event;
