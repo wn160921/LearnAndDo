@@ -91,7 +91,7 @@
         .center .utilBar ul li .codediv textarea{
             position: absolute;
             width: 98%;
-            height: 100%;
+            height: 95%;
             top: 30px;
             left: 3px;
             border-left: 1px green solid;
@@ -121,7 +121,7 @@
         .right textarea{
             height: 98%;
             border: green 1px solid;
-            white-space: pre-wrap;
+            /*white-space: pre-wrap;*/
         }
         .over{
             position: fixed;
@@ -131,11 +131,21 @@
             z-index: 1;
             display: none;
         }
+        .theEndResult{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #ffbf30;
+            z-index: 1;
+            display: none;
+            text-align: center;
+        }
+
         .over .bigPicture{
             margin: 100px auto;
             background: white;
-            width: 800px;
-            height: 400px;
+            width: 1000px;
+            height: 500px;
         }
         .over .bigLeft{
             position: absolute;
@@ -195,9 +205,17 @@
 </head>
 <body>
 <div id="container">
+    <div class="theEndResult">
+        <h2>实验结果 </h2>
+        <h3>用时</h3>
+        <h3>剩余提示数</h3>
+        <h3>变灰的步骤数</h3>
+    </div>
     <div class="over">
         <div class="bigPicture">
-            <img src="" alt="">
+            <canvas id="myCanvas" width="1000" height="500" style="box-shadow: 0px 0px 10px black;">
+                当前浏览器不支持 canvas
+            </canvas>
         </div>
         <img class="bigLeft" src="../images/bigLeft.png" alt="">
         <img class="bigRight" src="../images/bigRight.png" alt="">
@@ -205,7 +223,7 @@
     <div id="top">
         <h1>实验一  增加节点</h1>
         <div class="useInfo">
-            已用时间：<span id="time"></span>   剩余提示个数 <span class="cueRest">2</span>
+            已用时间：<span id="time"></span>   剩余提示个数 <span class="cueRest">10</span>
         </div>
     </div>
     <div class="left">
@@ -338,7 +356,7 @@ cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_9 创建main.c文件</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_9 创建code.c文件</div>
                             <div class="content">
                                 <button class="actiontBtn2">创建</button>
                             </div>
@@ -431,7 +449,7 @@ using namespace std;<br>
                                     <div>是否成功打印五个元素的链表？</div>
                                     <div>图像是否正确</div>
                                 </div>
-                                <button class="checkRun">运行</button>
+                                <button class="checkRun18">运行</button>
                             </div>
                         </li>
                         <li>
@@ -467,7 +485,7 @@ using namespace std;<br>
                                 <div class="check">
                                     运行是否成功
                                 </div>
-                                <button class="checkRun">运行</button>
+                                <button class="checkRun22">运行</button>
                             </div>
                         </li>
                     </ul>
@@ -506,7 +524,7 @@ using namespace std;<br>
 
     </div>
     <div class="right">
-            <textarea id="result" readonly="readonly" class="editArea">
+            <textarea id="result" wrap="hard" class="editArea">
 
             </textarea>
             <ul>
@@ -515,6 +533,7 @@ using namespace std;<br>
     </div>
 </div>
 <script>
+    var changeGreyNum = 0;
     //计时起
     var timeSpan = document.getElementById("time");
     var n= 0, timer=null;
@@ -655,6 +674,7 @@ using namespace std;<br>
     $("body").height($(window).height());
     //主要是left的代码
     $(".left .title").click(function (event) {
+        changeGreyNum+=1;
         var checkOpen = $(this).next().css("display");
         console.log("brother display"+checkOpen);
         if(checkOpen!="none"){
@@ -693,38 +713,103 @@ using namespace std;<br>
     }
 
     $(".actiontBtn1").click(function () {
+        changeGreyNum+=1;
         $(".center .utilBar ul li").first().show().click();
         $(this).parent().prev().css("color","#cccccc")
         $(this).hide();
     });
     $(".actiontBtn2").click(function () {
+        changeGreyNum+=1;
         $(".center .utilBar ul li").first().next().show().click();
         $(this).parent().prev().css("color","#cccccc")
         $(this).hide();
     });
     $(".left .insertBtn").click(function () {
+        changeGreyNum+=1;
         var code = $(this).prev().text();
         console.log("code:"+code);
         var textarea = $(this).prev().attr("aim");
         insertAfterCursor(textarea.substring(1,textarea.length),code);
         console.log(textarea);
         $(this).prev().css("background-color","#cccccc");
-        $(this).parent().prev().css("color","#cccccc")
-        $(this).hide()
+        $(this).parent().prev().css("color","#cccccc");
+        $(this).hide();
     });
     $(".left .cueBtn").click(function () {
+        changeGreyNum+=1;
         $(this).prev().show();
-        $(this).prev().css("background-color","#cccccc")
+        $(this).prev().css("background-color","#cccccc");
         $(this).hide();
         cueNum++;
         //标题变灰
-        $(this).parent().prev().css("color","#cccccc")
+        $(this).parent().prev().css("color","#cccccc");
         $("#top .cueRest").text(10-cueNum);
     });
-    $(".left .checkRun").click(function () {
-        $(".run").click();
 
+    var isrun = true;
+    var step18ClickResult = new Array();
+    $(".left .checkRun18").click(function () {
+        isrun = true;
+        if(step18ClickResult.length==0){
+            changeGreyNum+=1;
+        }
+        runClick();
+        //运行结果目标达成数
+        var stepResult = 0;
+        if(listarray.length==1){
+            stepResult+=1;
+            if(listarray[0].length==5){
+                stepResult+=1;
+                //第三个目标不检查
+            }
+            stepResult+=1;
+        }
+        console.log("stepresult"+stepResult);
+        step18ClickResult[step18ClickResult.length]=stepResult;
+        if(stepResult==3){
+            $(this).prev().css("background-color","#cccccc");
+            $(this).text("success");
+            $(this).hide()
+        }else {
+            $(this).prev().css("background-color","#CC3E38");
+        }
     });
+    var step22ClickResult = new Array();
+    $(".left .checkRun22").click(function () {
+        isrun = true;
+        if(step22ClickResult.length==0){
+            changeGreyNum+=1;
+        }
+        runClick();
+        //运行结果目标达成数
+        var stepResult = 0;
+        if(listarray.length==2){
+            if(listarray[1][2]==888){
+                stepResult+=1;
+            }
+        }
+        step22ClickResult[step18ClickResult.length]=stepResult;
+        if(stepResult==1){
+            $(this).prev().css("backgroud-color","#cccccc");
+            $(this).text("success");
+            $(this).hide();
+            $(".theEndResult").empty();
+            $(".theEndResult").append("<h3>实验成功</h3>");
+            $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
+            $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
+            $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+            $(".theEndResult").show();
+        }else {
+            $(this).prev().css("backgroud-color","red");
+            $(".theEndResult").empty();
+            $(".theEndResult").append("<h3>实验完成</h3>");
+            $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
+            $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
+            $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+            $(".theEndResult").show();
+        }
+    });
+
 
 
     $("textarea").keydown(function (e) {
@@ -741,68 +826,162 @@ using namespace std;<br>
         }
     });
     $(".over .bigLeft").click(function (event) {
-        console.log("left")
+        clearCanvas();
+        console.log("left");
         event.stopPropagation();
-        var picNum = $(".over .bigPicture img").attr("picNum");
-        var currSrcName = $(".over .bigPicture img").attr("src");
-        var currSrcIndex = parseInt(currSrcName.substring(currSrcName.indexOf("t")+1,currSrcName.indexOf(".")));
-        console.log("currSrcIndex:"+currSrcIndex);
+        var picNum = $("#myCanvas").attr("picNum");
+        var currSrcIndex = picNum;
         if(currSrcIndex==1){
-            var preSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+picNum+".png";
+            $("#myCanvas").attr("picNum",listarray.length);
         }else{
-            var preSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)-1)+".png";
+            $("#myCanvas").attr("picNum",currSrcIndex-1);
         }
-        $(".over .bigPicture img").attr("src",preSrcName+"?temp=" + Math.random());
+        console.log("left picNum:"+$("#myCanvas").attr("picNum"))
+        drawLinkList(listarray[$("#myCanvas").attr("picNum")-1]);
     });
     $(".over .bigRight").click(function (event) {
         event.stopPropagation();
+        clearCanvas();
         console.log("right");
-        var picNum = $(".over .bigPicture img").attr("picNum");
-        var currSrcName = $(".over .bigPicture img").attr("src");
-        console.log("name:"+currSrcName);
-        var currSrcIndex = parseInt(currSrcName.substring(currSrcName.indexOf("t")+1,currSrcName.indexOf(".")));
-        console.log("currSrcIndex:"+currSrcIndex);
-        if(currSrcIndex==picNum){
-            var nextSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+"1.png";
+        var picNum = $("#myCanvas").attr("picNum");
+        var currSrcIndex = parseInt(picNum);
+        if(currSrcIndex==listarray.length){
+            $("#myCanvas").attr("picNum",1);
         }else{
-            var nextSrcName = currSrcName.substring(0,currSrcName.indexOf("t")+1)+String(parseInt(currSrcIndex)+1)+".png";
+            $("#myCanvas").attr("picNum",currSrcIndex+1)
         }
-        $(".over .bigPicture img").attr("src",nextSrcName+"?temp=" + Math.random());
+        drawLinkList(listarray[$("#myCanvas").attr("picNum")-1]);
     });
     $(".over").click(function () {
         $(this).hide();
     });
-    $(".run").click(function () {
+    //存储链表数据
+    var listarray;
+    function getArray(str) {
+        var arr = new Array();
+        var reg = /表中的元素依次为：\n.*\n/g;
+        var datas = str.match(reg);
+        for(var key in datas){
+            var reg2=/\d+/g;
+            arr[key]=datas[key].match(reg2);
+        }
+        return arr;
+    }
+
+    //绘图
+    var canvas_1 = document.getElementById("myCanvas");
+    // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
+    var ctx = canvas_1.getContext("2d");
+    function drawArrow(x,y){
+        ctx.beginPath();
+        //设置绘制起点
+        ctx.moveTo(x,y);
+        //设置绘制下一个点
+        ctx.lineTo(x,y+1.25);
+        ctx.lineTo(x+40,y+1.25)
+        ctx.lineTo(x+40,y+3.75);
+        ctx.lineTo(x+50,y);
+        ctx.lineTo(x+40,y-3.75);
+        ctx.lineTo(x+40,y-1.25);
+        ctx.lineTo(x,y-1.25);
+        //结束绘制
+        ctx.closePath();
+        //设置线的宽度
+        ctx.lineWidth = 1;
+        //绘制点之间的线路
+        ctx.fill();
+    }
+
+    function drawHeadElement(x,y) {
+        drawArrow(x,y);
+        ctx.font = 'italic 40px 隶书';
+        ctx.textBaseline = 'top';
+        ctx.fillText('L',x,y-40);
+    }
+
+    function drawEndElement(x,y,data) {
+        ctx.strokeRect(x,y-19,45,38);
+        ctx.strokeRect(x+45,y-19,35,38);
+        ctx.beginPath();
+        //设置绘制起点
+        ctx.moveTo(x+60,y-10);
+        ctx.lineTo(x+50,y+10);
+        ctx.lineTo(x+70,y+10);
+        //结束绘制
+        ctx.closePath();
+        //设置线的宽度
+        ctx.lineWidth = 1;
+        //绘制点之间的线路
+        ctx.stroke();
+        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(data,x+5,y);
+    }
+
+    function  drawMiddleElement(x,y,data) {
+        ctx.strokeRect(x,y-19,45,38);
+        ctx.strokeRect(x+45,y-19,35,38);
+        drawArrow(x+60,y);
+        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(data,x+5,y);
+    }
+    function drawLinkList(data) {
+        console.log("listdata:"+data)
+        var length = data.length;
+        ctx.fillStyle="#999";
+        ctx.strokeStyle="#999";
+        drawHeadElement(40,250);
+        if(length==1){
+            drawEndElement(90,250);
+        }else {
+            var i=0,x=90,y=250;
+            for(i=0;i<length-1;i++){
+                drawMiddleElement(x,y,data[i]);
+                x=x+110;
+            }
+            drawEndElement(x,y,data[length-1]);
+        }
+    }
+    function clearCanvas()
+    {
+        canvas_1.height = canvas_1.height;
+    }
+
+    $(".run").click(runClick);
+    function runClick(){
+        listarray=null;
         //alert("click");
         console.log("click");
         console.log("code is:"+$("#code").val());
         $("#result").val("");
         $(".right ul").empty();
-        $.post("../test",
-            {
+        $.ajax({
+            type:"post",
+            url:"../test",data: {
                 "code":$("#code").val(),
                 "LinkList.h":$("#header").val()
             },
-            function (data,status) {
+            async:false,
+            success:function (data,status) {
                 console.log(data);
                 data = $.parseJSON(data);
                 $("#result").val(data.result);
+                listarray = getArray(data.result);
                 $(".right ul").empty();
                 var i = 1;
-                for(i=1;i<=data.picNum;i++){
-                    var currentPicture = data.directoryName+"showlinklist"+i+".png"+"?temp=" + Math.random();
-                    $(".right ul").append("<li><img src='../images/pic.png' curr='"+currentPicture+"' picNum='"+data.picNum+"' alt=\"\"></li>")
+                for (i = 1; i <= listarray.length; i++) {
+                    $(".right ul").append("<li><img src='../images/pic.png' picNum='" + i + "' alt=\"\"></li>")
                 }
                 $(".right ul li").click(function (event) {
                     $(".over").show();
-                    $(".over .bigPicture img").attr("src",$(this).children().attr("curr"));
-                    $(".over .bigPicture img").attr("picNum",$(this).children().attr("picNum"));
-
+                    $("#myCanvas").attr("picNum", $(this).children().attr("picNum"));
+                    clearCanvas();
+                    drawLinkList(listarray[$("#myCanvas").attr('picNum') - 1]);
                 });
-
-            });
-    });
-
+                isrun = false;
+            }});
+    }
     $(".center .utilBar ul li").click(function () {
         $(this).removeClass("unselected").siblings().addClass("unselected");
     })

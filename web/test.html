@@ -13,57 +13,94 @@
 </div>
 </body>
 <script type="text/javascript">
+    // 获取 canvas 元素对应的 DOM 对象
+    var canvas_1 = document.getElementById("canvas_1");
+    // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
+    var ctx = canvas_1.getContext("2d");
     function drawArrow(x,y){
         ctx.beginPath();
         //设置绘制起点
         ctx.moveTo(x,y);
         //设置绘制下一个点
-        ctx.lineTo(x+2.5,y);
-        ctx.lineTo(x+2.5,y+22);
-        ctx.lineTo(x+3.75,y+22);
-        ctx.lineTo(x+1.25,y+28);
-        ctx.lineTo(x-1.25,y+22);
-        ctx.lineTo(x,y+22);
+        ctx.lineTo(x,y+1.25);
+        ctx.lineTo(x+40,y+1.25)
+        ctx.lineTo(x+40,y+3.75);
+        ctx.lineTo(x+50,y);
+        ctx.lineTo(x+40,y-3.75);
+        ctx.lineTo(x+40,y-1.25);
+        ctx.lineTo(x,y-1.25);
         //结束绘制
         ctx.closePath();
         //设置线的宽度
-        ctx.lineWidth = 5;
-        //设置绘制的样式
-        ctx.strokeStyle = "#999";
+        ctx.lineWidth = 1;
+        //绘制点之间的线路
+        ctx.fill();
+    }
+
+    function drawHeadElement(x,y) {
+        drawArrow(x,y);
+        ctx.font = 'italic 40px 隶书';
+        ctx.textBaseline = 'top';
+        ctx.fillText('L',x,y-40);
+    }
+
+    function drawEndElement(x,y,data) {
+        ctx.strokeRect(x,y-19,45,38);
+        ctx.strokeRect(x+45,y-19,35,38);
+        ctx.beginPath();
+        //设置绘制起点
+        ctx.moveTo(x+60,y-10);
+        ctx.lineTo(x+50,y+10);
+        ctx.lineTo(x+70,y+10);
+        //结束绘制
+        ctx.closePath();
+        //设置线的宽度
+        ctx.lineWidth = 1;
         //绘制点之间的线路
         ctx.stroke();
+        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(data,x+5,y);
     }
-    
-    function draw() {
-        
+
+    function  drawMiddleElement(x,y,data) {
+        ctx.strokeRect(x,y-19,45,38);
+        ctx.strokeRect(x+45,y-19,35,38);
+        drawArrow(x+60,y);
+        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(data,x+5,y);
     }
-    var a = new Array('1','2','3','4','5');
+    var a = new Array('1','22','333','4444');
 
     function drawLinkList(data) {
-        var canvas_1 = document.getElementById("canvas_1");
-        // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
-        var ctx = canvas_1.getContext("2d");ctx.fillStyle="#999";
-        ctx.fillRect(10,10,40,40);
-        ctx.strokeStyle="#999";
-        ctx.strokeRect(50,11,40,38);
         var length = data.length;
+        ctx.fillStyle="#999";
+        ctx.strokeStyle="#999";
+        drawHeadElement(40,250);
         if(length==1){
-
+            drawEndElement(90,250);
+        }else {
+            var i=0,x=90,y=250;
+            for(i=0;i<length-1;i++){
+                drawMiddleElement(x,y,data[i]);
+                x=x+110;
+            }
+            drawEndElement(x,y,data[length-1]);
         }
-
     }
-
-
-    // 获取 canvas 元素对应的 DOM 对象
-    var canvas_1 = document.getElementById("canvas_1");
-
-    // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
-    var ctx = canvas_1.getContext("2d");
-    ctx.fillStyle="#999";
-    ctx.fillRect(10,10,40,40);
-    ctx.strokeStyle="#999";
-    ctx.strokeRect(50,11,40,38);
-    drawArrow(65,55);
-
+    //drawLinkList(a);
+    var str = "表中的元素依次为：\n     1    22   333  4444\n123表中的元素依次为：\n     1    22   333  4444\n123";
+    function getArray(str) {
+        var arr = new Array();
+        var reg = /表中的元素依次为：\n.*\n/g;
+        var datas = str.match(reg);
+        for(var key in datas){
+            var reg2=/\d+/g;
+            arr[key]=datas[key].match(reg2);
+        }
+        return arr;
+    }
+    console.log(getArray(str));
 </script>
 </html>
