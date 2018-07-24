@@ -24,6 +24,10 @@
         #top .useInfo{
 
         }
+        #top .spacing{
+            margin-left: 30px;
+            margin-right: 30px;
+        }
         #container{
             height: 100%;
             overflow: auto;
@@ -172,21 +176,24 @@
         }
         .left ul li .title{
             cursor: pointer;
+            font-size: 25px;
+        }
+        .left ul li ul li .title{
+            font-size: 20px;
         }
         .left ul ul{
             margin-left: 20px;
         }
+
         .left ul .content{
             margin:2px 14px;
             padding: 2px;
         }
         .left ul li .codePanel{
             background:#999999;
-
-        }
-        .left .codePanel{
-            width: 250px;
-            overflow: auto;
+            font-family: "Fira Code Light";
+            width: 100%;
+            overflow: hidden;
             white-space:nowrap;
         }
         .left .cueContent{
@@ -223,13 +230,13 @@
     <div id="top">
         <h1>实验一  增加节点</h1>
         <div class="useInfo">
-            已用时间：<span id="time"></span>   剩余提示个数 <span class="cueRest">10</span>
+            已用时间：<span id="time"></span><span class="spacing"></span>   剩余提示个数 <span class="cueRest">10</span>  <span class="spacing"></span> 剩余自动插入个数<span class="insertRest">8</span>
         </div>
     </div>
     <div class="left">
         <ul>
             <li>
-                <div class="title"><img src="../images/arrow_down.png" alt=""><strong>【实验目标】</strong></div>
+                <div class="title"><img src="../images/arrow_down.png" alt=""><span><strong>【实验目标】</strong></span></div>
                 <div class="content">
                     根据实验步骤中所提供的源码，完善LinkList.h和mian.c”两个程序文件，完成在一个链表中指定地点插入一个节点的工作，并用可视化的方法将插入前，插入后的效果展示出来。
                 </div>
@@ -248,22 +255,28 @@
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_2 加入引用库代码(#include)</div>
                             <div class="content">
-                                <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
-                                <button class="insertBtn">插入</button>
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
+                                    <button class="insertBtn">插入</button>
+                                </div>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_3 声明节点的结构类型(typedef struct Node)</div>
                             <div class="content">
-                                <div class="codePanel" aim="#header">
-
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#header">
+<br>
 typedef struct Node {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;ElemType data;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;struct  Node  *next;<br>
 }LNode,*LinkList;<br>
-
+<br>
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -278,8 +291,9 @@ typedef struct Node {<br>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_5 头插法创建单链表(CreateList_L_Front)</div>
                             <div class="content">
-                                <div class="codePanel" aim="#header">
-
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#header">
+<br>
 void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;LinkList p;   int i;<br>
@@ -293,16 +307,20 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L->next=p;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
 }<br>
-
+<br>
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
 
                         </li>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_6 遍历输出各节点(ListTraverse_L(mylist);)</div>
                             <div class="content">
-                                <div class="codePanel" aim="#header">
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#header">
+<br>
 void ListTraverse_L(LinkList L)<br>
 {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;LinkList p=L-&gt;next;<br>
@@ -313,8 +331,11 @@ void ListTraverse_L(LinkList L)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
 &nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;endl;<br>
 }<br>
+<br>
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -329,7 +350,9 @@ void ListTraverse_L(LinkList L)<br>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_8 插入可视化组件（必须）</div>
                             <div class="content">
-                                <div class="codePanel" aim="#header">
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#header">
+<br>
 void ListVisualization_L(LinkList L)<br>
 {   int temp=0;<br>
 cout&lt;&lt;endl;<br>
@@ -350,9 +373,11 @@ temp++;<br>
 }<br>
 cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
 }<br>
-
+<br>
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -364,15 +389,20 @@ cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_10 插入#include</div>
                             <div class="content">
-                                <div class="codePanel" aim="#code">
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#code">
+<br>
 typedef  int ElemType;<br>
 # include &quot;stdlib.h&quot;<br>
 # include &quot;iostream&quot;<br>
 # include &quot;iomanip&quot;<br>
 using namespace std;<br>
 # include &quot;LinkList.h&quot;<br>
+<br>
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -434,10 +464,13 @@ using namespace std;<br>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_17 加入可视化功能</div>
                             <div class="content">
-                                <div class="codePanel" aim="#code">
-                                    ListVisualization_L(mylist);
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#code">
+                                        ListVisualization_L(mylist);
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -473,10 +506,13 @@ using namespace std;<br>
                         <li>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_21 加入可视化功能</div>
                             <div class="content">
-                                <div class="codePanel" aim="#code">
-                                    ListVisualization_L(mylist);
+                                <div class="cueContent">
+                                    <div class="codePanel" aim="#code">
+                                        ListVisualization_L(mylist);
+                                    </div>
+                                    <button class="insertBtn">插入</button>
                                 </div>
-                                <button class="insertBtn">插入</button>
+                                <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
@@ -897,6 +933,9 @@ using namespace std;<br>
         ctx.font = 'italic 40px 隶书';
         ctx.textBaseline = 'top';
         ctx.fillText('L',x,y-40);
+        ctx.fillRect(x+50,y-20,45,40);
+        ctx.strokeRect(x+95,y-19,35,38);
+        drawArrow(x+110,y);
     }
 
     function drawEndElement(x,y,data) {
@@ -904,11 +943,11 @@ using namespace std;<br>
         ctx.strokeRect(x+45,y-19,35,38);
         ctx.beginPath();
         //设置绘制起点
-        ctx.moveTo(x+60,y-10);
-        ctx.lineTo(x+50,y+10);
+        ctx.moveTo(x+50,y+10);
+        ctx.lineTo(x+60,y-10);
         ctx.lineTo(x+70,y+10);
         //结束绘制
-        ctx.closePath();
+        //ctx.closePath();
         //设置线的宽度
         ctx.lineWidth = 1;
         //绘制点之间的线路
@@ -933,9 +972,9 @@ using namespace std;<br>
         ctx.strokeStyle="#999";
         drawHeadElement(40,250);
         if(length==1){
-            drawEndElement(90,250);
+            drawEndElement(200,250);
         }else {
-            var i=0,x=90,y=250;
+            var i=0,x=200,y=250;
             for(i=0;i<length-1;i++){
                 drawMiddleElement(x,y,data[i]);
                 x=x+110;

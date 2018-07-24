@@ -42,6 +42,9 @@
         ctx.font = 'italic 40px 隶书';
         ctx.textBaseline = 'top';
         ctx.fillText('L',x,y-40);
+        ctx.fillRect(x+50,y-20,45,40);
+        ctx.strokeRect(x+95,y-19,35,38);
+        drawArrow(x+110,y);
     }
 
     function drawEndElement(x,y,data) {
@@ -49,11 +52,11 @@
         ctx.strokeRect(x+45,y-19,35,38);
         ctx.beginPath();
         //设置绘制起点
-        ctx.moveTo(x+60,y-10);
-        ctx.lineTo(x+50,y+10);
+        ctx.moveTo(x+50,y+10);
+        ctx.lineTo(x+60,y-10);
         ctx.lineTo(x+70,y+10);
         //结束绘制
-        ctx.closePath();
+        //ctx.closePath();
         //设置线的宽度
         ctx.lineWidth = 1;
         //绘制点之间的线路
@@ -79,9 +82,9 @@
         ctx.strokeStyle="#999";
         drawHeadElement(40,250);
         if(length==1){
-            drawEndElement(90,250);
+            drawEndElement(200,250);
         }else {
-            var i=0,x=90,y=250;
+            var i=0,x=200,y=250;
             for(i=0;i<length-1;i++){
                 drawMiddleElement(x,y,data[i]);
                 x=x+110;
@@ -89,7 +92,8 @@
             drawEndElement(x,y,data[length-1]);
         }
     }
-    //drawLinkList(a);
+    drawLinkList(a);
+    //drawHeadElement(40,250)
     var str = "表中的元素依次为：\n     1    22   333  4444\n123表中的元素依次为：\n     1    22   333  4444\n123";
     function getArray(str) {
         var arr = new Array();
