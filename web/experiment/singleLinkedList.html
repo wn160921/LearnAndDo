@@ -189,23 +189,24 @@
             margin:2px 14px;
             padding: 2px;
         }
+
         .left ul li .codePanel{
-            background:#999999;
             font-family: "Fira Code Light";
             width: 100%;
             overflow: hidden;
             white-space:nowrap;
+            color: #6c2dc7;
         }
         .left .cueContent{
+            color:#6c2dc7;
             padding: 2px;
             display: none;
         }
         .main{
-            color: #ffc01b;
+            color: #9f000f;
         }
         .left .check{
-            border: #ffc01b 1px solid;
-
+            border: #9f000f 1px solid;
         }
     </style>
     <script src="../jquery-3.3.1.js"></script>
@@ -257,7 +258,7 @@
                             <div class="content">
                                 <div class="cueContent">
                                     <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -267,14 +268,12 @@
                             <div class="content">
                                 <div class="cueContent">
                                     <div class="codePanel" aim="#header">
-<br>
 typedef struct Node {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;ElemType data;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;struct  Node  *next;<br>
 }LNode,*LinkList;<br>
-<br>
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -309,7 +308,7 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 }<br>
 <br>
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -333,7 +332,7 @@ void ListTraverse_L(LinkList L)<br>
 }<br>
 <br>
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -387,7 +386,7 @@ cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_10 插入#include</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_10 自动插入#include</div>
                             <div class="content">
                                 <div class="cueContent">
                                     <div class="codePanel" aim="#code">
@@ -400,7 +399,7 @@ using namespace std;<br>
 # include &quot;LinkList.h&quot;<br>
 <br>
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -468,7 +467,7 @@ using namespace std;<br>
                                     <div class="codePanel" aim="#code">
                                         ListVisualization_L(mylist);
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -510,7 +509,7 @@ using namespace std;<br>
                                     <div class="codePanel" aim="#code">
                                         ListVisualization_L(mylist);
                                     </div>
-                                    <button class="insertBtn">插入</button>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -539,7 +538,7 @@ using namespace std;<br>
                 <li class="unselected">
                     <div class="fileName">LinkedList.h</div>
                     <div class="codediv">
-                        <textarea id="header" spellcheck="false" class="editArea">
+                        <textarea id="header" wrap="hard" spellcheck="false" class="editArea">
 
                         </textarea>
                     </div>
@@ -547,7 +546,7 @@ using namespace std;<br>
                 <li>
                     <div class="fileName">code.c</div>
                     <div class="codediv">
-                        <textarea id="code" spellcheck="false" class="editArea">
+                        <textarea id="code" spellcheck="false" wrap="hard" class="editArea">
 
                         </textarea>
                     </div>
@@ -723,17 +722,12 @@ using namespace std;<br>
     });
 
     function insertAfterCursor(area,data){
-        console.log(area);
         area = document.getElementById(area);
         $(area).focus();
-        console.log("focus");
-        console.log(area.selectionStart);
         if(document.selection){
-            console.log("位置1");
             var sel = document.selection().createRange();
             sel.txt = data;
         }else if(typeof area.selectionStart==="number"&&typeof area.selectionEnd==="number"){
-            console.log('location 2');
             var startPos = area.selectionStart,
                 endPos = area.selectionEnd,
                 curPos = startPos,
@@ -743,7 +737,6 @@ using namespace std;<br>
             curPos+=value.length;
             area.selectionStart = area.selectionEnd = curPos;
         }else {
-            console.log("location3");
             area.value=area.value+data;
         }
     }
@@ -766,19 +759,30 @@ using namespace std;<br>
         console.log("code:"+code);
         var textarea = $(this).prev().attr("aim");
         insertAfterCursor(textarea.substring(1,textarea.length),code);
-        console.log(textarea);
-        $(this).prev().css("background-color","#cccccc");
-        $(this).parent().prev().css("color","#cccccc");
+        $(this).prev().css("color","#cccccc");
+        $(this).parent().parent().prev().css("color","#cccccc");
         $(this).hide();
     });
     $(".left .cueBtn").click(function () {
         changeGreyNum+=1;
         $(this).prev().show();
-        $(this).prev().css("background-color","#cccccc");
+        console.log("button:"+$(this).prev().find(".insertBtn").text());
+        if($(this).prev().find(".insertBtn").text()!="自动插入"){
+            //let that = this;
+            var that = this;
+            setTimeout(function () {
+                console.log("that"+$(that));
+                $(that).prev().css("color","#cccccc");
+                $(that).parent().prev().css("color","#cccccc");
+            },3000);
+            //setTimeout('$(that).prev().css("color","#cccccc");$(that).parent().prev().css("color","#cccccc")',3000);
+        }else {
+            $(this).prev().css("color","#cccccc");
+            //$(this).parent().prev().css("color","#cccccc");
+        }
         $(this).hide();
         cueNum++;
         //标题变灰
-        $(this).parent().prev().css("color","#cccccc");
         $("#top .cueRest").text(10-cueNum);
     });
 
