@@ -1,6 +1,7 @@
 package xin.wangning.servlet;
 
 import cn.itcast.commons.CommonUtils;
+import xin.wangning.UserFilter;
 import xin.wangning.domain.User;
 import xin.wangning.service.UserService;
 
@@ -22,6 +23,7 @@ public class UserServlet extends BaseServlet {
         boolean result = service.checkLogin(user.getUsername(),user.getPassword());
         if(result){
             HttpSession session = req.getSession();
+            UserFilter.userSessionIdMap.put(user.getUsername(),session.getId());
             session.setAttribute("user",user);
             return "success";
         }else {
@@ -30,6 +32,7 @@ public class UserServlet extends BaseServlet {
     }
     public String getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
+
         System.out.println("输出用户信息");
         if(user==null){
             return "fail";
@@ -43,4 +46,13 @@ public class UserServlet extends BaseServlet {
         return "success";
     }
 
+    public String checkLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if(session.getId().equals(UserFilter.userSessionIdMap.get(user.getUsername()))){
+            return "isIn";
+        }else {
+            return "notIn";
+        }
+    }
 }

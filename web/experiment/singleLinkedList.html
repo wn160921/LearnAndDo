@@ -66,8 +66,10 @@
             border:green 1px solid;
         }
 
-        .run{
+        .center .utilBtn{
             float: right;
+            width: auto;
+            height: 30px;
         }
         .editArea{
             resize: none;
@@ -101,7 +103,7 @@
             border-left: 1px green solid;
             border-right: 1px green solid;
             border-bottom: 1px green solid;
-
+            font-size: 20px;
         }
         .center .utilBar ul .unselected .codediv{
             display: none;
@@ -144,12 +146,39 @@
             display: none;
             text-align: center;
         }
-
+        .tips{
+            position: fixed;
+            background: #66666666;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: none;
+            text-align: center;
+        }
+        .notFocustips{
+            position: fixed;
+            background: #66666666;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: none;
+            text-align: center;
+        }
+        .tipContainer{
+            background: white;
+            width: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -100px;
+            margin-left: -300px;
+        }
         .over .bigPicture{
+            text-align: center;
             margin: 100px auto;
             background: white;
             width: 1000px;
-            height: 500px;
+            height: auto;
         }
         .over .bigLeft{
             position: absolute;
@@ -219,8 +248,23 @@
         <h3>剩余提示数</h3>
         <h3>变灰的步骤数</h3>
     </div>
+    <div class="tips">
+        <div class="tipContainer">
+            <h3>消耗提示或者插入机会会影响最终分数，确定吗？</h3>
+            不再提示<input type="checkbox" class="notTip"><br>
+            <input type="button" value="确定" class="yes"> <input type="button" value="取消" class="cancle">
+        </div>
+    </div>
+    <div class="notFocustips">
+        <div class="tipContainer">
+            <h3>目标编辑框未获取焦点</h3>
+        </div>
+    </div>
     <div class="over">
         <div class="bigPicture">
+            <div class="netxTip">
+
+            </div>
             <canvas id="myCanvas" width="1000" height="500" style="box-shadow: 0px 0px 10px black;">
                 当前浏览器不支持 canvas
             </canvas>
@@ -231,7 +275,7 @@
     <div id="top">
         <h1>实验一  增加节点</h1>
         <div class="useInfo">
-            已用时间：<span id="time"></span><span class="spacing"></span>   剩余提示个数 <span class="cueRest">10</span>  <span class="spacing"></span> 剩余自动插入个数<span class="insertRest">8</span>
+            已用时间：<span id="time"></span><span class="spacing"></span>   剩余提示个数 <span class="cueRest">12</span>  <span class="spacing"></span> 剩余自动插入个数<span class="insertRest">5</span>
         </div>
     </div>
     <div class="left">
@@ -257,7 +301,8 @@
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_2 加入引用库代码(#include)</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#header">#include&lt;stdio.h&gt;</div>
+<div class="codePanel" aim="#header">#include&lt;stdio.h&gt;
+</div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
@@ -267,13 +312,13 @@
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_3 声明节点的结构类型(typedef struct Node)</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#header">
+<div class="codePanel" aim="#header">
 typedef struct Node {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;ElemType data;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;struct  Node  *next;<br>
-}LNode,*LinkList;<br>
-                                    </div>
-                                    <button class="insertBtn">自动插入</button>
+}LNode,*LinkList;
+</div>
+                                    <button class="insertBtn" title="将在光标位置插入">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
@@ -291,7 +336,7 @@ typedef struct Node {<br>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_5 头插法创建单链表(CreateList_L_Front)</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#header">
+<div class="codePanel" aim="#header">
 <br>
 void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 {<br>
@@ -306,8 +351,7 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L->next=p;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
 }<br>
-<br>
-                                    </div>
+</div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
@@ -318,8 +362,7 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
                             <div class="title"><img src="../images/arrow_down.png" alt="">step_6 遍历输出各节点(ListTraverse_L(mylist);)</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#header">
-<br>
+<div class="codePanel" aim="#header">
 void ListTraverse_L(LinkList L)<br>
 {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;LinkList p=L-&gt;next;<br>
@@ -330,85 +373,40 @@ void ListTraverse_L(LinkList L)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
 &nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;endl;<br>
 }<br>
-<br>
-                                    </div>
+</div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_7 插入元素操作</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    书P47页算法2.15
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_8 插入可视化组件（必须）</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    <div class="codePanel" aim="#header">
-<br>
-void ListVisualization_L(LinkList L)<br>
-{   int temp=0;<br>
-cout&lt;&lt;endl;<br>
-LinkList p=L;<br>
-if(p&amp;&amp;!(p-&gt;next))<br>
-{<br>
-cout&lt;&lt;&quot;dot代码 digraph g { rankdir=LR; node [shape = \&quot;record\&quot; width = 0.5];node0  [label = \&quot;&lt;data&gt; //// | &lt;next&gt;  ^\&quot;];&quot;;<br>
-}<br>
-else if(p&amp;&amp;(p-&gt;next))<br>
-{<br>
-cout&lt;&lt;&quot;dot代码 digraph g { rankdir=LR; node [shape = \&quot;record\&quot; width = 0.5];node0  [label = \&quot;&lt;data&gt; //// | &lt;next&gt;  \&quot;];&quot;;<br>
-while(p-&gt;next)<br>
-{<br>
-printf(&quot;node%d [label =\&quot;&lt;data&gt; %d| &lt;next&gt;\&quot;]  node%d:next -&gt; node%d:data;&quot;,temp+1, p-&gt;next-&gt;data,temp,temp+1);<br>
-p=p-&gt;next;<br>
-temp++;<br>
-}<br>
-}<br>
-cout&lt;&lt;&quot;}&quot;&lt;&lt;endl;<br>
-}<br>
-<br>
-                                    </div>
-                                    <button class="insertBtn">插入</button>
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_9 创建code.c文件</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_7 创建main.c文件</div>
                             <div class="content">
                                 <button class="actiontBtn2">创建</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_10 自动插入#include</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_8 自动插入#include</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#code">
-<br>
-typedef  int ElemType;<br>
+<div class="codePanel" aim="#code">typedef  int ElemType;<br>
 # include &quot;stdlib.h&quot;<br>
 # include &quot;iostream&quot;<br>
 # include &quot;iomanip&quot;<br>
 using namespace std;<br>
 # include &quot;LinkList.h&quot;<br>
-<br>
-                                    </div>
+</div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_11 创建main方法</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_9 创建main方法</div>
                             <div class="content">
                                 <div class="cueContent">
                                     int main(){<br>
+                                    //后续代码放在这里 <br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
                                     }<br>
                                 </div>
@@ -416,7 +414,7 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_12 调用LinkList.h中的函数声明mylist</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_10 调用LinkList.h中的函数声明mylist</div>
                             <div class="content">
                                 <div class="cueContent">
                                     LinkList mylist;
@@ -425,16 +423,19 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_13 调用LinkList.h中的函数初始化mylist</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_11 调用LinkList.h中的函数初始化mylist</div>
                             <div class="content">
-                                <div class="cueContent">
-                                    InitList_L(mylist);
+                                <div class="cueContent" aim="#code">
+<div class="codePanel" aim="#header">
+InitList_L(mylist);<br>
+</div>
+                                    <button class="insertBtn">自动插入</button>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_14 创建含有五个值的整形数组a[]</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_12 创建含有五个值的整形数组a[]</div>
                             <div class="content">
                                 <div class="cueContent">
                                     int a[]={6,8,16,2,34};
@@ -443,7 +444,7 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_15 调用LinkList.h中的函数，头插法创建链表</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_13 调用LinkList.h中的函数，头插法创建链表</div>
                             <div class="content">
                                 <div class="cueContent">
                                     CreateList_L_Front(mylist,a,5);
@@ -452,7 +453,7 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_16 调用LinkList.h中的函数，遍历打印链表</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_14 调用LinkList.h中的函数，遍历打印链表</div>
                             <div class="content">
                                 <div class="cueContent">
                                     ListTraverse_L(mylist);
@@ -461,69 +462,82 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_17 加入可视化功能</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_15 运行程序</div>
+                            <div class="content">
+                                运行程序
+                                <!--&lt;!&ndash;记分内容&ndash;&gt;-->
+                                <!--<div class="check">-->
+                                    <!--<div>是否成功执行？</div>-->
+                                    <!--<div>是否成功打印五个元素的链表？</div>-->
+                                    <!--<div>图像是否正确</div>-->
+                                <!--</div>-->
+                                <!--<button class="checkRun18">运行</button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_16 编写插入元素函数</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    <div class="codePanel" aim="#code">
-                                        ListVisualization_L(mylist);
-                                    </div>
-                                    <button class="insertBtn">自动插入</button>
+                                    书P47页算法2.15
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_18 运行程序</div>
-                            <div class="content">
-                                <!--记分内容-->
-                                <div class="check">
-                                    <div>是否成功执行？</div>
-                                    <div>是否成功打印五个元素的链表？</div>
-                                    <div>图像是否正确</div>
-                                </div>
-                                <button class="checkRun18">运行</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_19 调用LinkList.h中的函数，在链表的第二个元素后面插入一个新的元素’888‘</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_17 在主函数中调用测试插入元素操作，将'888'插入到第二个元素后面，然后调用遍历函数，最后运行</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    ListInsert_L(mylist,2,888);
+                                    书P47页算法2.15
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_20 调用LinkList.h中的函数，遍历打印链表</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_18 结束实验</div>
                             <div class="content">
-                                <div class="cueContent">
-                                    ListTraverse_L(mylist);
-                                </div>
-                                <button class="cueBtn">提示</button>
+                                <button class="settle">提交</button>
                             </div>
                         </li>
-                        <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_21 加入可视化功能</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    <div class="codePanel" aim="#code">
-                                        ListVisualization_L(mylist);
-                                    </div>
-                                    <button class="insertBtn">自动插入</button>
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_22 运行，看是否插入成功</div>
-                            <div class="content">
-                                <div class="check">
-                                    运行是否成功
-                                </div>
-                                <button class="checkRun22">运行</button>
-                            </div>
-                        </li>
-                    </ul>
+                        <!--<li>-->
+                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_16 调用LinkList.h中的函数，在链表的第二个元素后面插入一个新的元素’888‘</div>-->
+                            <!--<div class="content">-->
+                                <!--<div class="cueContent">-->
+                                    <!--ListInsert_L(mylist,2,888);-->
+                                <!--</div>-->
+                                <!--<button class="cueBtn">提示</button>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_17 调用LinkList.h中的函数，遍历打印链表</div>-->
+                            <!--<div class="content">-->
+                                <!--<div class="cueContent">-->
+                                    <!--ListTraverse_L(mylist);-->
+                                <!--</div>-->
+                                <!--<button class="cueBtn">提示</button>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="title"><img src="../images/arrow_down.png" alt="">step_18 加入可视化功能</div>-->
+                            <!--<div class="content">-->
+                                <!--<div class="cueContent">-->
+                                    <!--<div class="codePanel" aim="#code">-->
+                                        <!--ListVisualization_L(mylist);-->
+                                    <!--</div>-->
+                                    <!--<button class="insertBtn">自动插入</button>-->
+                                <!--</div>-->
+                                <!--<button class="cueBtn">提示</button>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_19 运行，看是否插入成功</div>-->
+                            <!--<div class="content">-->
+                                <!--<div class="check">-->
+                                    <!--运行是否成功-->
+                                <!--</div>-->
+                                <!--<button class="checkRun22">运行</button>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                    <!--</ul>-->
                 </div>
             </li>
         </ul>
@@ -533,22 +547,28 @@ using namespace std;<br>
     </div>
     <div class="center">
         <div class="utilBar">
-            <input type="button" value="运行" class="run"/>
+            <input type="button" value="运行" class="utilBtn run"/>
+            <input type="button" value="重做" class="utilBtn">
+            <input type="button" value="撤销" class="utilBtn">
+            <input type="button" value="A+" class="utilBtn fontSizeAdd">
+            <input type="button" value="A-" class="utilBtn fontSizeDec">
+            <select class="utilBtn">
+                <option value="a">gcc compile</option>
+                <option value="">gcc for arm</option>
+                <option value="gcc for zpu">gcc for zpu</option>
+                <option value="">gcc for avr</option>
+            </select>
             <ul>
                 <li class="unselected">
                     <div class="fileName">LinkedList.h</div>
                     <div class="codediv">
-                        <textarea id="header" wrap="hard" spellcheck="false" class="editArea">
-
-                        </textarea>
+                        <textarea id="header" wrap="hard" spellcheck="false" class="editArea"></textarea>
                     </div>
                 </li>
                 <li>
-                    <div class="fileName">code.c</div>
+                    <div class="fileName">main.c</div>
                     <div class="codediv">
-                        <textarea id="code" spellcheck="false" wrap="hard" class="editArea">
-
-                        </textarea>
+                        <textarea id="code" spellcheck="false" wrap="hard" class="editArea"></textarea>
                     </div>
                 </li>
             </ul>
@@ -568,6 +588,19 @@ using namespace std;<br>
     </div>
 </div>
 <script>
+    //添加悬浮提示内容
+    $(".insertBtn").attr("title","请保证光标落在要插入的位置上")
+
+    //textarea字体大小
+    var fontSize = 20;
+    $(".fontSizeAdd").click(function () {
+        $("textarea").css("font-size",fontSize+2);
+        fontSize+=2;
+    });
+    $(".fontSizeDec").click(function () {
+        $("textarea").css("font-size",fontSize-2);
+        fontSize-= 2;
+    });
     var changeGreyNum = 0;
     //计时起
     var timeSpan = document.getElementById("time");
@@ -704,6 +737,8 @@ using namespace std;<br>
 
 
 
+    //自动插入次数
+    var autoInsert=0;
     //提示次数
     var cueNum = 0;
     $("body").height($(window).height());
@@ -753,47 +788,72 @@ using namespace std;<br>
         $(this).parent().prev().css("color","#cccccc")
         $(this).hide();
     });
+    $("#header").blur(function () {
+        $("#header").attr("justBlur","true");
+    });
+    $("#code").blur(function () {
+        $("#code").attr("justBlur","true");
+    });
     $(".left .insertBtn").click(function () {
         changeGreyNum+=1;
+        autoInsert+=1;
+        $("#top .insertRest").text(10-cueNum);
         var code = $(this).prev().text();
         console.log("code:"+code);
         var textarea = $(this).prev().attr("aim");
+        if($(textarea).attr("justBlur")=="true"){
+            $(textarea).attr("justBlur","false");
+        }else {
+            $(".notFocustips").show();
+            return;
+        }
         insertAfterCursor(textarea.substring(1,textarea.length),code);
         $(this).prev().css("color","#cccccc");
         $(this).parent().parent().prev().css("color","#cccccc");
         $(this).hide();
     });
-    $(".left .cueBtn").click(function () {
+    $(".notFocustips").click(function () {
+        console.log("should hide");
+        $(this).hide();
+    });
+    //弹出的提示狂
+    var actionItem;
+    $(".yes").click(function () {
+        $(".tips").hide();
+        actionItem.prev().show();
         changeGreyNum+=1;
-        $(this).prev().show();
-        console.log("button:"+$(this).prev().find(".insertBtn").text());
-        if($(this).prev().find(".insertBtn").text()!="自动插入"){
-            //let that = this;
-            var that = this;
+        if(actionItem.prev().find(".insertBtn").text()!="自动插入"){
+            var that = actionItem;
             setTimeout(function () {
                 console.log("that"+$(that));
-                $(that).prev().css("color","#cccccc");
-                $(that).parent().prev().css("color","#cccccc");
+                that.prev().css("color","#cccccc");
+                that.parent().prev().css("color","#cccccc");
             },3000);
-            //setTimeout('$(that).prev().css("color","#cccccc");$(that).parent().prev().css("color","#cccccc")',3000);
         }else {
             $(this).prev().css("color","#cccccc");
-            //$(this).parent().prev().css("color","#cccccc");
         }
-        $(this).hide();
+        actionItem.hide();
         cueNum++;
         //标题变灰
-        $("#top .cueRest").text(10-cueNum);
+        $("#top .cueRest").text(12-cueNum);
+    });
+    $(".cancle").click(function () {
+        $(".tips").hide();
     });
 
-    var isrun = true;
-    var step18ClickResult = new Array();
-    $(".left .checkRun18").click(function () {
-        isrun = true;
-        if(step18ClickResult.length==0){
-            changeGreyNum+=1;
+
+    $(".left .cueBtn").click(function () {
+        actionItem = $(this);
+        console.log($(".notTip").prop("checked"));
+        if($(".notTip").prop("checked")){
+            $(".yes").click();
+        }else {
+            $(".tips").show();
         }
-        runClick();
+    });
+
+    //根据不同的结果进行展示
+    function oneCheck() {
         //运行结果目标达成数
         var stepResult = 0;
         if(listarray.length==1){
@@ -805,50 +865,53 @@ using namespace std;<br>
             stepResult+=1;
         }
         console.log("stepresult"+stepResult);
-        step18ClickResult[step18ClickResult.length]=stepResult;
         if(stepResult==3){
-            $(this).prev().css("background-color","#cccccc");
-            $(this).text("success");
-            $(this).hide()
+            $(".netxTip").show();
+            $(".netxTip").text("成功生成带头结点的单链表，下面调用LinkedList.h文件中你写的插入函数，再然后再遍历一遍，看是否成功");
         }else {
-            $(this).prev().css("background-color","#CC3E38");
+            $(".netxTip").hide();
         }
+    }
+
+    function twoCheck() {
+        $(".netxTip").show();
+        $(".netxTip").text("成功生成两幅图，是否结束实验？");
+        $(".netxTip").append("<br><button class='settle'>结束实验</button>");
+        $(".settle").click(function () {
+            settlement();
+        });
+        $(".netxTip").show();
+    }
+    $(".settle").click(function () {
+        settlement();
     });
-    var step22ClickResult = new Array();
-    $(".left .checkRun22").click(function () {
-        isrun = true;
-        if(step22ClickResult.length==0){
-            changeGreyNum+=1;
-        }
-        runClick();
+    function settlement() {
+        $(".over").hide();
+        $(".theEndResult").show();
+        console.log("showend");
         //运行结果目标达成数
         var stepResult = 0;
-        if(listarray.length==2){
-            if(listarray[1][2]==888){
-                stepResult+=1;
-            }
+        if(listarray[1][2]==888){
+            stepResult+=1;
         }
-        step22ClickResult[step18ClickResult.length]=stepResult;
         if(stepResult==1){
-            $(this).prev().css("backgroud-color","#cccccc");
-            $(this).text("success");
-            $(this).hide();
             $(".theEndResult").empty();
             $(".theEndResult").append("<h3>实验成功</h3>");
             $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
             $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
             $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+            $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
             $(".theEndResult").show();
         }else {
-            $(this).prev().css("backgroud-color","red");
             $(".theEndResult").empty();
             $(".theEndResult").append("<h3>实验完成</h3>");
             $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
             $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
             $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+            $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
             $(".theEndResult").show();
         }
-    });
+    }
 
 
 
@@ -865,7 +928,7 @@ using namespace std;<br>
             event.returnValue=false;
         }
     });
-    $(".over .bigLeft").click(function (event) {
+    $(".bigLeft").click(function (event) {
         clearCanvas();
         console.log("left");
         event.stopPropagation();
@@ -993,6 +1056,7 @@ using namespace std;<br>
 
     $(".run").click(runClick);
     function runClick(){
+        checkIsLogin();
         listarray=null;
         //alert("click");
         console.log("click");
@@ -1022,12 +1086,37 @@ using namespace std;<br>
                     clearCanvas();
                     drawLinkList(listarray[$("#myCanvas").attr('picNum') - 1]);
                 });
-                isrun = false;
+                if(listarray.length==1){
+                    oneCheck();
+                }
+                if(listarray.length==2){
+                    twoCheck();
+                }
             }});
     }
     $(".center .utilBar ul li").click(function () {
         $(this).removeClass("unselected").siblings().addClass("unselected");
     })
+
+
+    //下线验证
+    function checkIsLogin() {
+        $.ajax({
+            type:"post",
+            url:"../UserServlet",
+            data: {
+                    method:"checkLogin"
+            },
+            async:false,
+            success:function(data,status){
+                if(data=="isIn"){
+                    console.log(data+" is isIn")
+                }else {
+                    self.location="../login.html";
+                }
+            }
+        });
+    }
 </script>
 </body>
 

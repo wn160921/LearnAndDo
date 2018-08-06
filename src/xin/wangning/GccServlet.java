@@ -18,7 +18,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         }
         //唯一的头文件
         String header = request.getParameter("LinkList.h");
-        if(header==null||header.equals("")){
+        if(header==null){
             PrintWriter pw = response.getWriter();
             pw.write("code error");
             pw.flush();
