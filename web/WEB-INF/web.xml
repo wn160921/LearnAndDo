@@ -11,6 +11,10 @@
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>xin.wangning.servlet.UserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestResultServlet</servlet-name>
+        <servlet-class>xin.wangning.servlet.TestResultServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -18,6 +22,10 @@
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestResultServlet</servlet-name>
+        <url-pattern>/TestResultServlet</url-pattern>
     </servlet-mapping>
     <filter>
         <display-name>UserFilter</display-name>

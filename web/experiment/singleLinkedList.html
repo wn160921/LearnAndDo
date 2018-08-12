@@ -885,6 +885,8 @@ InitList_L(mylist);<br>
     $(".settle").click(function () {
         settlement();
     });
+
+    //对实验进行结算
     function settlement() {
         $(".over").hide();
         $(".theEndResult").show();
@@ -911,8 +913,30 @@ InitList_L(mylist);<br>
             $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
             $(".theEndResult").show();
         }
+
     }
 
+    //上传实验数据
+    function upLoadData(){
+        var testData = {"time":timeSpan.innerHTML,"cueRest": $(".cueRest").text(),"changGreyNum":changeGreyNum,"autoInsertNum":autoInsert};
+        console.log("uploaddata!!")
+        console.log(JSON.stringify(testData))
+        // $.ajax({
+        //     type:"post",
+        //     url:"../UserServlet",
+        //     data: {
+        //         method:"checkLogin"
+        //     },
+        //     async:false,
+        //     success:function(data,status){
+        //         if(data=="isIn"){
+        //             console.log(data+" is isIn")
+        //         }else {
+        //             self.location="../login.html";
+        //         }
+        //     }
+        // });
+    }
 
 
     $("textarea").keydown(function (e) {
@@ -1059,8 +1083,8 @@ InitList_L(mylist);<br>
         checkIsLogin();
         listarray=null;
         //alert("click");
-        console.log("click");
-        console.log("code is:"+$("#code").val());
+        //console.log("click");
+        //console.log("code is:"+$("#code").val());
         $("#result").val("");
         $(".right ul").empty();
         $.ajax({
@@ -1071,7 +1095,7 @@ InitList_L(mylist);<br>
             },
             async:false,
             success:function (data,status) {
-                console.log(data);
+                //console.log(data);
                 data = $.parseJSON(data);
                 $("#result").val(data.result);
                 listarray = getArray(data.result);
@@ -1093,6 +1117,7 @@ InitList_L(mylist);<br>
                     twoCheck();
                 }
             }});
+        upLoadData();
     }
     $(".center .utilBar ul li").click(function () {
         $(this).removeClass("unselected").siblings().addClass("unselected");
