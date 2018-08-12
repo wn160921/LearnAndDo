@@ -4,6 +4,16 @@ public class TestResult {
     private String username;
     private String testNumber;
     private String resultJSON;
+    //0未完成    1完成了
+    private String finish;
+
+    public String getFinish() {
+        return finish;
+    }
+
+    public void setFinish(String finish) {
+        this.finish = finish;
+    }
 
     public String getUsername() {
         return username;

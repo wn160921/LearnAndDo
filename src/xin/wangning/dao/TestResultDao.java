@@ -31,7 +31,7 @@ public class TestResultDao {
 
     public void add(TestResult testResult){
         try{
-            String sql = "insert into testResults values(?,?,?)";
+            String sql = "insert into testResults values(?,?,?,?)";
             Object param[] = {testResult.getUsername(),testResult.getTestNumber(),testResult.getResultJSON()};
             qr.update(sql,param);
         }catch (Exception e){
