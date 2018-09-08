@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我是title</title>
+
+    <style>
+        ul{
+            margin: 0;
+            padding: 2px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        #container{
+            width: 1000px;
+            margin: 100px auto;
+            text-align: center;
+        }
+        .showtable{
+            overflow: auto;
+        }
+        .showtable .tableHead{
+            overflow: auto;
+            margin:0 auto;
+        }
+        .showtable .tableHead li{
+            text-align: center;
+            list-style: none;
+            float: left;
+            width: 100px;
+            color: #003eff;
+            font-size: 20px;
+            border: #666666 2px solid;
+            margin-left: -2px;
+            height: 33px;
+        }
+        .showtable .data{
+            text-align: center;
+            overflow: auto;
+        }
+        .showtable .data li{
+            line-height: 33px;
+            text-align: center;
+            list-style: none;
+            float: left;
+            width: 100px;
+            color: #000000;
+            font-size: 16px;
+            border: #666666 2px solid;
+            margin-left: -2px;
+            margin-top: -2px;
+        }
+    </style>
+    <script src="../jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div class="toolbar">
+            暂时为空，后续添加
+        </div>
+        <div class="showtable">
+            <ul class="tableHead">
+                <li>序号</li>
+                <li>学号</li>
+                <li>用时</li>
+                <li>剩余提示</li>
+                <li>点击步骤</li>
+                <li>自动插入</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+        //序号
+        var index = 1;
+
+
+        getTestData(1);
+        //获取学生实验信息
+        function getTestData(testNum) {
+            $.ajax({
+                type:"post",
+                url:"../TestResultServlet",
+                data: {
+                    method:"findAll",
+                    testNumber:testNum,
+                },
+                async:false,
+                success:function(data,status){
+                    if(data=="fail"){
+
+                    }else {
+                        datas = $.parseJSON(data);
+                        console.log(datas);
+                        $(".tableHead").siblings().remove();
+                        for(key in datas){
+                            var result = $.parseJSON(datas[key].resultJSON);
+                            console.log(typeof result);
+                            $(".showtable").append("<ul class='data'><li>"+index+"</li><li>"+datas[key].username+"</li><li>"+result.time+
+                                "</li><li>"+result.cueRest+"</li><li>"+result.changGreyNum+"</li><li>"+result.autoInsertNum+"</li></ul>");
+                            index+=1;
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

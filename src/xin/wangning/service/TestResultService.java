@@ -15,7 +15,17 @@ public class TestResultService {
         dao.add(result);
     }
 
-    public TestResult findByUsername(String name){
-        return  dao.findByUsername(name);
+    public TestResult findByUsername(String name,String testNum){
+        return  dao.findByUsernameAndTestNum(name,testNum);
+    }
+
+    //存在更新，否则插入
+    public void updata(TestResult testResult){
+        TestResult testResult1 = dao.findByUsernameAndTestNum(testResult.getUsername(),testResult.getTestNumber());
+        if(testResult1==null){
+            dao.add(testResult);
+        }else {
+            dao.update(testResult);
+        }
     }
 }

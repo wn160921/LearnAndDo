@@ -14,21 +14,25 @@
         $(function(){
             $("span").click(function(){
                 var thisEle = $("#para").css("font-size");
-                // var textFontSize = parseFloat(thisEle , 10);
-                // var unit = thisEle.slice(-2); //获取单位
-                // var cName = $(this).attr("class");
-                // if(cName == "bigger"){
-                //     if( textFontSize <= 22 ){
-                //         textFontSize += 2;
-                //     }
-                // }else if(cName == "smaller"){
-                //     if( textFontSize >= 12 ){
-                //         textFontSize -= 2;
-                //     }
-                // }
-                $("#para").css("font-size", "50px");
+                var textFontSize = parseFloat(thisEle , 10);
+                var unit = thisEle.slice(-2); //获取单位
+                var cName = $(this).attr("class");
+                if(cName == "bigger"){
+                    if( textFontSize <= 22 ){
+                        textFontSize += 2;
+                    }
+                }else if(cName == "smaller"){
+                    if( textFontSize >= 12 ){
+                        textFontSize -= 2;
+                    }
+                }
+                $("#para").css("font-size", textFontSize);
             });
         });
+        var str="\n0 1 23 3 4 5\nabc\n0 12 34\n";
+        var reg = /\n(\d+ ?)+\n/g;
+        var a = str.match(reg);
+        console.log(a);
     </script>
 </head>
 <body>

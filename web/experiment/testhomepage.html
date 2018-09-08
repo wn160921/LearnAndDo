@@ -24,7 +24,7 @@
 
         #top .info{
             position: absolute;
-            top: 34px;
+            top: 19px;
             left: 50%;
             margin-left: 400px;
             width: 200px;
@@ -44,6 +44,7 @@
             width: 250px;
             height: 800px;
             float: left;
+            padding-left: 5px;
         }
         #container .left ul{
             margin-left: 20px;
@@ -78,6 +79,7 @@
 
     </style>
     <script src="../jquery-3.3.1.js"></script>
+    <script src="myFunction.js"></script>
 </head>
 <body>
 <div id="top">
@@ -92,17 +94,27 @@
         <ul>
             <li class="end" name="kcjj">课程简介</li>
             <li class="end" name="sydh">实验导航</li>
-            <li class="end">教学计划</li>
-            <li class="end">我的反馈</li>
-            <li class="end">教学团队介绍</li>
+            <li class="end" name=""jxjh>教学计划</li>
+            <li class="end" name="wdfk">我的反馈</li>
+            <li class="end" name="jxtdjs">教学团队介绍</li>
             <li class="lock">链表<br>
                 <ul class="lock">
                     <li class="end">顺序表</li>
                     <li class="lock open">单链表<br>
                         <ul>
-                            <li class="end" name="zjjd">增加节点（实验1）</li>
+                            <li class="end" name="zjjd">实验一：增加节点</li>
                         </ul>
                     </li>
+                </ul>
+            </li>
+            <li class="lock">队列<br>
+                <ul class="lock">
+                    <li class="lock open">顺序循环队列 <br>
+                        <ul>
+                            <li class="end" name="sqjc">实验二：顺序循环队列中进队和出队</li>
+                        </ul>
+                    </li>
+
                 </ul>
             </li>
             <li class="end">数组</li>
@@ -114,6 +126,7 @@
             <li class="kcjj">
                 <div>
                     <h1>这是课程简介</h1>
+                    <button id="openLinux" type="button">打开虚拟实验环境</button>
                 </div>
             </li>
             <li class="sydh">
@@ -126,7 +139,11 @@
                     <a href="singleLinkedList.html">实验</a>
                 </div>
             </li>
-
+            <li class="sqjc">
+                <div>
+                    <a href="sqQueue.html">实验二：顺序循环队列中进队和出队</a>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
@@ -135,6 +152,7 @@
 </div>
 <script>
     $(document).ready(function () {
+        $("#openLinux").click(startLinux);
         $("#container .left ul li").click(function (event) {
             console.log($(this.class))
             event.stopPropagation();

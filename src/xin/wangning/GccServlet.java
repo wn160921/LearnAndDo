@@ -10,6 +10,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         System.out.println("get it");
         response.setCharacterEncoding("utf-8");
         String code = request.getParameter("code");
+        String headerName = request.getParameter("headerName");
         if(code==null||code.equals("")){
             PrintWriter pw = response.getWriter();
             pw.write("code error");
@@ -17,7 +18,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
             pw.close();
         }
         //唯一的头文件
-        String header = request.getParameter("LinkList.h");
+        String header = request.getParameter(headerName);
         if(header==null){
             PrintWriter pw = response.getWriter();
             pw.write("code error");
@@ -42,7 +43,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         fw.write(code.replace("\240"," "));
         fw.flush();
         fw.close();
-        File file2 = new File(path+"LinkList.h");
+        File file2 = new File(path+headerName);
         if(file2.exists()){
             file2.delete();
         }

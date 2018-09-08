@@ -239,6 +239,7 @@
         }
     </style>
     <script src="../jquery-3.3.1.js"></script>
+    <script src="myFunction.js"></script>
 </head>
 <body>
 <div id="container">
@@ -273,7 +274,7 @@
         <img class="bigRight" src="../images/bigRight.png" alt="">
     </div>
     <div id="top">
-        <h1>实验一  增加节点</h1>
+        <h1>实验二：顺序循环队列中进队和出队</h1>
         <div class="useInfo">
             已用时间：<span id="time"></span><span class="spacing"></span>   剩余提示个数 <span class="cueRest">12</span>  <span class="spacing"></span> 剩余自动插入个数<span class="insertRest">5</span>
         </div>
@@ -283,7 +284,7 @@
             <li>
                 <div class="title"><img src="../images/arrow_down.png" alt=""><span><strong>【实验目标】</strong></span></div>
                 <div class="content">
-                    根据实验步骤中所提供的源码，完善LinkList.h和mian.c”两个程序文件，完成在一个链表中指定地点插入一个节点的工作，并用可视化的方法将插入前，插入后的效果展示出来。
+                    顺序循环队列是解决假溢出的有效方法，其区分队空与队满根据实验步骤中所提供的信息，完善SqQueue.h和main.cpp两个程序文件，完成顺序循环队列数据结构（实际上就是顺序队列）的创建。完成在顺序循环队列中判空与判满的
                 </div>
             </li>
             <li>
@@ -291,21 +292,26 @@
                 <div>
                     <ul>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_1 创建LinkList.h</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_1 创建SqQueue.h</div>
                             <div class="content">
                                 <div class="readyCode"></div>
                                 <button class="actiontBtn1">创建</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_2 声明节点的结构类型(typedef struct Node)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_2 声明节点的结构类型(typedef struct)</div>
                             <div class="content">
                                 <div class="cueContent">
+                                    参考书P92页算法
 <div class="codePanel" aim="#header">
-typedef struct Node {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;ElemType data;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;struct  Node  *next;<br>
-}LNode,*LinkList;
+<br>
+typedef struct {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ElemType *queue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int front;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int rear;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int queuesize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int incrementsize;<br>
+}SqQueue;
 </div>
                                     <button class="insertBtn" title="将在光标位置插入">自动插入</button>
                                 </div>
@@ -313,33 +319,34 @@ typedef struct Node {<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_3 初始化操作(void InitList_L(LinkList &L))</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_3 初始化队列Q（InitQueue_Sq，大小为10，增量为5）</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    书中P45，算法2.12
+                                    书P93页算法3.23
+<div class="codePanel" aim="#header">
+<br>
+void InitQueue_Sq(SqQueue &Q,int maxsize=20, int 	incresize=5){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.queue=(ElemType*)malloc(maxsize*sizeof(ElemType));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(!Q.queue) exit(01);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.front=Q.rear=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.queuesize=maxsize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.incrementsize=incresize;<br>
+}<br>
+</div>
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_4 头插法创建单链表(CreateList_L_Front)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_4 求队列长度操作（QueueLength_Sq）</div>
                             <div class="content">
                                 <div class="cueContent">
+                                    (Q.rear - Q.front + Q.queuesize)%Q.queuesize）
 <div class="codePanel" aim="#header">
 <br>
-void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
-{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;LinkList p;   int i;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;L=(LinkList)malloc(sizeof(LNode));<br>
-&nbsp;&nbsp;&nbsp;&nbsp;L->next=NULL;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;for(i=n-1;i>=0;i--)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p=(LinkList)malloc(sizeof(LNode));<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->data=a[i];<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p->next=L->next;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L->next=p;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-}<br>
+int QueueLength_Sq(SqQueue Q){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return (Q.rear-Q.front+Q.queuesize)%Q.queuesize;<br>
+}
 </div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
@@ -348,19 +355,41 @@ void CreateList_L_Front(LinkList &L,ElemType a[],int n )<br>
 
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_5 遍历输出各节点(ListTraverse_L(mylist);)</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step_5 入队操作（EnQueue_Sq，将一个新元素插入到Q的尾部，成功插入则返回true，否则返回false。</div>
                             <div class="content">
                                 <div class="cueContent">
-<div class="codePanel" aim="#header">
-void ListTraverse_L(LinkList L)<br>
-{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;LinkList p=L-&gt;next;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;while(p)<br>
+                                    按照书P92页“方法一”，首先判断队列是否已满，判满条件为(rear+1)%maxsize(或queuesize) = front），若已满，则重新分配空间，并判断队尾指针是否在队首指针之前，如果是，则需要扩容。然后将进队元素插入到队尾指针所指示的位置，再将队尾指针“依环状增1”，<br>
+                                    if(队满)<br>
+                                    {    //增补队列空间 <br>
+                                    if(Q.front>Q.rear) <br>
+                                    {需进行扩容： <br>
+                                    //1.将Q.front到queuesize-1之间的元素后移Q.increasementsize个位置 <br>
+                                    //2.队首指针后移Q.increasementsize个位置 <br>
+                                    //队列容量增加Q.incresementsize个位置 <br>
+                                    } <br>
+                                    //元素e插入到队尾 <br>
+                                    //队尾指针顺时针移动一个位置 <br>
+                                    } <br>
+                                    return true; <br>
+<div class="codePanel" aim="#header"><br>
+bool EnQueue_Sq(SqQueue &Q,ElemType e){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//从队尾插入元素，成功则返回true <br>
+&nbsp;&nbsp;&nbsp;&nbsp;if((Q.rear+1)%Q.queuesize==Q.front) //队满给顺序队列增补空间 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;{ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt; setw(6)&lt;&lt;p-&gt;data;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p=p-&gt;next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q.queue=(ElemType*)realloc(Q.queue,(Q.queuesize+Q.incrementsize)*sizeof(ElemType)); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!Q.queue) return false; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(Q.front>Q.rear)   //队首指针在队尾指针后面，重新确定位置 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i=Q.queuesize;i>=Q.front;i--){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q.queue[i+Q.incrementsize]=Q.queue[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q.front+=Q.incrementsize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q.queuesize+=Q.incrementsize;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;endl;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.queue[Q.rear]=e;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.rear=(Q.rear+1)%Q.queuesize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
 }<br>
 </div>
                                     <button class="insertBtn">自动插入</button>
@@ -369,21 +398,18 @@ void ListTraverse_L(LinkList L)<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_6 创建main.cpp文件</div>
-                            <div class="content">
-                                <button class="actiontBtn2">创建</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title"><img src="../images/arrow_down.png" alt="">step_7 自动插入#include</div>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">step 6:出队操作（DeQueue_Sq，将顺序循环队列Q的队首元素删除，并用e值返回，成功删除返回true，否则返回false。）</div>
                             <div class="content">
                                 <div class="cueContent">
-<div class="codePanel" aim="#code">typedef  int ElemType;<br>
-# include &quot;stdlib.h&quot;<br>
-# include &quot;iostream&quot;<br>
-# include &quot;iomanip&quot;<br>
-using namespace std;<br>
-# include &quot;LinkList.h&quot;<br>
+                                    判断队列是否为空，判空条件为front == rear，若为空，若非空，则先将队首元素去除，然后将队首指针“依环状增1”。
+<div class="codePanel" aim="#code">
+<br>
+bool DeQueue_Sq(SqQueue &Q,ElemType &e){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(Q.front==Q.rear) return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e=Q.queue[Q.front];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.front=(Q.front+1)%Q.queuesize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+}<br>
 </div>
                                     <button class="insertBtn">自动插入</button>
                                 </div>
@@ -391,11 +417,63 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_8 创建main方法</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step7: 取队首元素（GetHead_Sq）</div>
+                            <div class="content">
+                                e=Q.queue[Q.front];
+<div class="cueContent"><br>
+bool GetHead_Sq(SqQueue Q,ElemType &e){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(Q.front==Q.rear)  return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;e=Q.queue[Q.front];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+}<br>
+</div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step 8:撤销循环队列操作（DestroyQueue_Sq）</div>
+                            <div class="content">
+                                free(Q.queue); Q.queuesize=0; Q.front=Q.rear=0;
+<div class="cueContent"><br>
+void DestroyQueue_Sq(SqQueue &Q){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;free(Q.queue);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.queuesize=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Q.front=Q.rear=0;<br>
+}<br>
+</div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title"><img src="../images/arrow_down.png" alt="">Step 9: 创建main.cpp文件</div>
+                            <div class="content">
+                                <button class="actiontBtn2">创建</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step 10：写入#include文件，用用元素类型为int</div>
+                            <div class="content">
+                                <div class="cueContent" aim="#code">
+<div class="codePanel" aim="#header">
+<br>
+typedef int ElemType;<br>
+# include "stdlib.h"<br>
+# include "iostream"<br>
+# include "iomanip"<br>
+using namespace std;<br>
+# include "SqQueue.h"<br>
+</div>
+                                    <button class="insertBtn">自动插入</button>
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step 11：创建main方法</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    int main(){<br>
-                                    //后续代码放在这里 <br>
+                                    提示：int main(){<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;//后续代码放在这里 <br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
                                     }<br>
                                 </div>
@@ -403,130 +481,83 @@ using namespace std;<br>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_9 调用LinkList.h中的函数声明mylist</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step12: 调用SqQueue.h中的函数初始化myqueue</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    LinkList mylist;
+                                    SqQueue myqueue;
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_10 调用LinkList.h中的函数初始化mylist</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step13: 创建含有12个元素的数组(23, 4, 2, 45, 7, 10, 88, 34, 62, 16, 28, 40)</div>
                             <div class="content">
-                                <div class="cueContent" aim="#code">
-<div class="codePanel" aim="#header">
-InitList_L(mylist);<br>
+                                <div class="cueContent">
+                                    int i, x, a[]={23,4,2,45,7,10,88,34,62};
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step14: 初始化顺序循环队列muyqueue</div>
+                            <div class="content">
+                                <div class="cueContent">
+                                    InitQueue_Sq(myQueue,10,5)
+                                </div>
+                                <button class="cueBtn">提示</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step15: a[0]-a[9]依次入队</div>
+                            <div class="content">
+<div class="cueContent">
+for(i=0;i<10;i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(!EnQueue_Sq)(myqueue,a[i])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{cout&lt;&lt;"入队失败"&lt;&lt;endl; return;}<br>
 </div>
-                                    <button class="insertBtn">自动插入</button>
-                                </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_11 创建含有五个值的整形数组a[]</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step16: 打印队首元素，打印队列长度, 并运行程序</div>
+                            <div class="cueContent">
+                                GetHead_Sq(myqueue) , QueueLength_Sq(myqueue)
+                            </div>
+                            <button class="cueBtn">提示</button>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step17：将a[10]入队，打印队首元素，打印队列长度，并运行程序</div>
+                            <div class="content">
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step18：将a[11]入队，打印队首元素，打印队列长度，并运行程序</div>
+                            <div class="content">
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step19：将a[0]-a[5]依次出队，并运行程序</div>
+                            <div class="content">
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">Step20：撤销队列</div>
                             <div class="content">
                                 <div class="cueContent">
-                                    int a[]={6,8,16,2,34};
+                                    DestroyQueue_Sq(myqueue)
                                 </div>
                                 <button class="cueBtn">提示</button>
                             </div>
                         </li>
                         <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_12 调用LinkList.h中的函数，头插法创建链表</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    CreateList_L_Front(mylist,a,5);
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_13 调用LinkList.h中的函数，遍历打印链表</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    ListTraverse_L(mylist);
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_14 运行程序</div>
-                            <div class="content">
-                                运行程序
-                                <!--&lt;!&ndash;记分内容&ndash;&gt;-->
-                                <!--<div class="check">-->
-                                    <!--<div>是否成功执行？</div>-->
-                                    <!--<div>是否成功打印五个元素的链表？</div>-->
-                                    <!--<div>图像是否正确</div>-->
-                                <!--</div>-->
-                                <!--<button class="checkRun18">运行</button>-->
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_15 编写插入元素函数</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    书P47页算法2.15
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_16 在主函数中调用测试插入元素操作，将'888'插入到第二个元素后面，然后调用遍历函数，最后运行</div>
-                            <div class="content">
-                                <div class="cueContent">
-                                    书P47页算法2.15
-                                </div>
-                                <button class="cueBtn">提示</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="title main"><img src="../images/arrow_down.png" alt="">step_17 结束实验</div>
+                            <div class="title main"><img src="../images/arrow_down.png" alt="">step21 结束实验</div>
                             <div class="content">
                                 <button class="settle">提交</button>
                             </div>
                         </li>
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_16 调用LinkList.h中的函数，在链表的第二个元素后面插入一个新的元素’888‘</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--ListInsert_L(mylist,2,888);-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_17 调用LinkList.h中的函数，遍历打印链表</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--ListTraverse_L(mylist);-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title"><img src="../images/arrow_down.png" alt="">step_18 加入可视化功能</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--<div class="codePanel" aim="#code">-->
-                                        <!--ListVisualization_L(mylist);-->
-                                    <!--</div>-->
-                                    <!--<button class="insertBtn">自动插入</button>-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_19 运行，看是否插入成功</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="check">-->
-                                    <!--运行是否成功-->
-                                <!--</div>-->
-                                <!--<button class="checkRun22">运行</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                    <!--</ul>-->
                 </div>
             </li>
         </ul>
@@ -549,7 +580,7 @@ InitList_L(mylist);<br>
             </select>
             <ul>
                 <li class="unselected">
-                    <div class="fileName">LinkedList.h</div>
+                    <div class="fileName">SqQueue.h</div>
                     <div class="codediv">
                         <textarea id="header" wrap="hard" spellcheck="false" class="editArea"></textarea>
                     </div>
@@ -571,9 +602,9 @@ InitList_L(mylist);<br>
             <textarea id="result" wrap="hard" class="editArea">
 
             </textarea>
-            <ul>
+        <ul>
 
-            </ul>
+        </ul>
     </div>
 </div>
 <script>
@@ -683,7 +714,7 @@ InitList_L(mylist);<br>
         console.log("gaibianhpu"+$(".left").width());
         $(".center").width(centerW);
     }
-  //照着上面再来一次，有机会再整合
+    //照着上面再来一次，有机会再整合
     $(".centerHandle").mousedown(function (event) {
         $(".right").css("overflow","hidden");
         $(".center").css("overflow","hidden");
@@ -856,7 +887,7 @@ InitList_L(mylist);<br>
         console.log("stepresult"+stepResult);
         if(stepResult==3){
             $(".netxTip").show();
-            $(".netxTip").text("成功生成带头结点的单链表，下面调用LinkedList.h文件中你写的插入函数，再然后再遍历一遍，看是否成功");
+            $(".netxTip").text("成功生成带头结点的单链表，下面调用SqQueue.h文件中你写的插入函数，再然后再遍历一遍，看是否成功");
         }else {
             $(".netxTip").hide();
         }
@@ -946,7 +977,7 @@ InitList_L(mylist);<br>
         }
     });
     $(".bigLeft").click(function (event) {
-        clearCanvas();
+        clearCanvas("myCanvas");
         console.log("left");
         event.stopPropagation();
         var picNum = $("#myCanvas").attr("picNum");
@@ -957,11 +988,11 @@ InitList_L(mylist);<br>
             $("#myCanvas").attr("picNum",currSrcIndex-1);
         }
         console.log("left picNum:"+$("#myCanvas").attr("picNum"))
-        drawLinkList(listarray[$("#myCanvas").attr("picNum")-1]);
+        drawQueue("myCanvas",listarray[$("#myCanvas").attr('picNum') - 1]);
     });
     $(".over .bigRight").click(function (event) {
         event.stopPropagation();
-        clearCanvas();
+        clearCanvas("myCanvas");
         console.log("right");
         var picNum = $("#myCanvas").attr("picNum");
         var currSrcIndex = parseInt(picNum);
@@ -970,129 +1001,37 @@ InitList_L(mylist);<br>
         }else{
             $("#myCanvas").attr("picNum",currSrcIndex+1)
         }
-        drawLinkList(listarray[$("#myCanvas").attr("picNum")-1]);
+        drawQueue("myCanvas",listarray[$("#myCanvas").attr('picNum') - 1]);
     });
     $(".over").click(function () {
         $(this).hide();
     });
     //存储链表数据
     var listarray;
-    function getArray(str) {
-        var arr = new Array();
-        var reg = /\n(\d+ ?)+\n/g;
-        var datas = str.match(reg);
-        for(var key in datas){
-            var reg2=/\d+/g;
-            arr[key]=datas[key].match(reg2);
-        }
-        return arr;
-    }
-
-    //绘图
-    var canvas_1 = document.getElementById("myCanvas");
-    // 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
-    var ctx = canvas_1.getContext("2d");
-    function drawArrow(x,y){
-        ctx.beginPath();
-        //设置绘制起点
-        ctx.moveTo(x,y);
-        //设置绘制下一个点
-        ctx.lineTo(x,y+1.25);
-        ctx.lineTo(x+40,y+1.25)
-        ctx.lineTo(x+40,y+3.75);
-        ctx.lineTo(x+50,y);
-        ctx.lineTo(x+40,y-3.75);
-        ctx.lineTo(x+40,y-1.25);
-        ctx.lineTo(x,y-1.25);
-        //结束绘制
-        ctx.closePath();
-        //设置线的宽度
-        ctx.lineWidth = 1;
-        //绘制点之间的线路
-        ctx.fill();
-    }
-
-    function drawHeadElement(x,y) {
-        drawArrow(x,y);
-        ctx.font = 'italic 40px 隶书';
-        ctx.textBaseline = 'top';
-        ctx.fillText('L',x,y-40);
-        ctx.fillRect(x+50,y-20,45,40);
-        ctx.strokeRect(x+95,y-19,35,38);
-        drawArrow(x+110,y);
-    }
-
-    function drawEndElement(x,y,data) {
-        ctx.strokeRect(x,y-19,45,38);
-        ctx.strokeRect(x+45,y-19,35,38);
-        ctx.beginPath();
-        //设置绘制起点
-        ctx.moveTo(x+50,y+10);
-        ctx.lineTo(x+60,y-10);
-        ctx.lineTo(x+70,y+10);
-        //结束绘制
-        //ctx.closePath();
-        //设置线的宽度
-        ctx.lineWidth = 1;
-        //绘制点之间的线路
-        ctx.stroke();
-        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(data,x+5,y);
-    }
-
-    function  drawMiddleElement(x,y,data) {
-        ctx.strokeRect(x,y-19,45,38);
-        ctx.strokeRect(x+45,y-19,35,38);
-        drawArrow(x+60,y);
-        ctx.font = 'italic '+30/Math.sqrt(data.length)+'px'+' 隶书';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(data,x+5,y);
-    }
-    function drawLinkList(data) {
-        console.log("listdata:"+data)
-        var length = data.length;
-        ctx.fillStyle="#999";
-        ctx.strokeStyle="#999";
-        drawHeadElement(40,250);
-        if(length==1){
-            drawEndElement(200,250);
-        }else {
-            var i=0,x=200,y=250;
-            for(i=0;i<length-1;i++){
-                drawMiddleElement(x,y,data[i]);
-                x=x+110;
-            }
-            drawEndElement(x,y,data[length-1]);
-        }
-    }
-    function clearCanvas()
-    {
-        canvas_1.height = canvas_1.height;
-    }
 
     $(".run").click(runClick);
     function runClick(){
         checkIsLogin();
         listarray=null;
-        //alert("click");
-        //console.log("click");
-        //console.log("code is:"+$("#code").val());
         $("#result").val("");
         $(".right ul").empty();
         $.ajax({
             type:"post",
             url:"../test",data: {
                 "code":$("#code").val(),
-                "LinkList.h.h":$("#header").val(),
-                "headerName":"LinkList.h"
+                "SqQueue.h":$("#header").val(),
+                "headerName":"SqQueue.h"
             },
             async:false,
             success:function (data,status) {
-                //console.log(data);
+                if(data=="code error"){
+                    alert(data);
+                }
+                console.log(data);
                 data = $.parseJSON(data);
-                $("#result").val(data.result);
-                listarray = getArray(data.result);
+                handledData = handleQueueResult(data.result);
+                $("#result").val(handledData[0]);
+                listarray = handledData[1];
                 $(".right ul").empty();
                 var i = 1;
                 for (i = 1; i <= listarray.length; i++) {
@@ -1101,15 +1040,15 @@ InitList_L(mylist);<br>
                 $(".right ul li").click(function (event) {
                     $(".over").show();
                     $("#myCanvas").attr("picNum", $(this).children().attr("picNum"));
-                    clearCanvas();
-                    drawLinkList(listarray[$("#myCanvas").attr('picNum') - 1]);
+                    clearCanvas("myCanvas");
+                    drawQueue("myCanvas",listarray[$("#myCanvas").attr('picNum') - 1]);
                 });
-                if(listarray.length==1){
-                    oneCheck();
-                }
-                if(listarray.length==2){
-                    twoCheck();
-                }
+                // if(listarray.length==1){
+                //     oneCheck();
+                // }
+                // if(listarray.length==2){
+                //     twoCheck();
+                // }
             }});
         upLoadData();
     }
@@ -1124,7 +1063,7 @@ InitList_L(mylist);<br>
             type:"post",
             url:"../UserServlet",
             data: {
-                    method:"checkLogin"
+                method:"checkLogin"
             },
             async:false,
             success:function(data,status){

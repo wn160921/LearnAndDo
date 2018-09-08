@@ -1,6 +1,8 @@
 package xin.wangning.servlet;
 
 import cn.itcast.commons.CommonUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import xin.wangning.UserFilter;
 import xin.wangning.domain.User;
 import xin.wangning.service.UserService;
@@ -55,4 +57,48 @@ public class UserServlet extends BaseServlet {
             return "notIn";
         }
     }
+
+    public String startLinux(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user==null){
+            return "找不到用户";
+        }
+        try
+        {
+            String username = user.getUsername();
+            String port = username.substring(5,10);
+            String url = "http://127.0.0.1:5000/start?name="+username+"&port="+port;
+            Document document = Jsoup.connect(url).get();
+            String result = document.text();
+            System.out.println("linux:"+result);
+            return port;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return "fail";
+    }
+
+    public String closeLinux(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user==null){
+            return "找不到用户";
+        }
+        try
+        {
+            String username = user.getUsername();
+            String url = "http://127.0.0.1:5000/close?name="+username;
+            Document document = Jsoup.connect(url).get();
+            return document.html();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return "fail";
+    }
+
 }
