@@ -11,7 +11,7 @@ function startLinux() {
                 alert("出错了");
             }else {
                 console.log("localhost:"+result);
-                self.location="http://localhost:"+result;
+                self.location="http://118.24.125.75:"+result;
             }
         }
     })
@@ -81,12 +81,12 @@ function handleQueueResult(resultStr) {
     var front;
     var rear;
     var arrLists=[];
-    var arrList=[];
     var result;
-    var reg=/dataStart.*dataEnd/g;
+    var reg=/dataStart.*dataEnd\n/g;
     var drawData = resultStr.match(reg);
     result = resultStr.replace(reg,"");
     for(var key in drawData){
+        var arrList=[];
         var frontReg =/front=\d+/g;
         var rearReg = /rear=\d+/g;
         var listReg = /list=.*dataEnd/g;
