@@ -58,16 +58,28 @@ function drawQueue(canvaId,data) {
             textnum+=1;
         }
     }
+    //垂直向下的箭头
+    function drawSArrow(x,y,lengths) {
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.lineTo(x,y+lengths);
+        ctx.lineTo(x-3,y+lengths-3);
+        ctx.lineTo(x,y+lengths);
+        ctx.lineTo(x+3,y+lengths-3);
+        ctx.stroke();
+    }
 
     function drawArr() {
         //先旋转到开始位置
         ctx.rotate(rotateAngle*0.5);
         for(var key in arr){
             if (key==data[0]){
-                ctx.fillText("front",-20,-220);
+                ctx.fillText("front",-20,-230);
+                drawSArrow(0,-230,30);
             }
             if(key==data[1]){
-                ctx.fillText("rear",-20,-220);
+                ctx.fillText("rear",-20,-215);
+                drawSArrow(0,-220,18);
             }
             if(arr[key]!="空") {
                 ctx.fillText(arr[key], 0, -170);

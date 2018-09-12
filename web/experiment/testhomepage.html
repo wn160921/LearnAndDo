@@ -11,9 +11,21 @@
         ul{
             list-style: none;
         }
-        div{
-            margin: 10px auto;
+        a{
+            color: #fff;
+            text-decoration: none;
+        }
+        /*div{*/
+            /*margin: 10px auto;*/
+            /*width: 1200px;*/
+        /*}*/
+        .center{
             width: 1200px;
+            margin: 20px auto 0;
+            padding: 20px;
+            border-radius: 20px;
+            color: #fff;
+            background: rgba(128,128,128,.5);
         }
         #top{
             position: relative;
@@ -24,7 +36,7 @@
 
         #top .info{
             position: absolute;
-            top: 19px;
+            top: 5px;
             left: 50%;
             margin-left: 400px;
             width: 200px;
@@ -33,14 +45,19 @@
 
         #bottom{
             height: 100px;
-            border: bisque 1px solid;
+            margin-top: 10px;
+            border-top:#fff  2px solid;
         }
         #container{
             margin: 0 auto;
             overflow: hidden;
         }
         #container .left{
-            border: black 1px solid;
+            border: #fff 1px solid;
+            border-radius: 15px;
+            padding: 10px;
+            margin-right: 5px;
+            box-sizing: border-box;
             width: 250px;
             height: 800px;
             float: left;
@@ -71,10 +88,26 @@
             margin-left: 20px;
         }
         #container .right{
-            border: red 1px solid;
+            border: #fff 1px solid;
+            border-radius: 15px;
+
             width: 940px;
             height: 800px;
+            padding: 10px;
             float: left;
+            box-sizing: border-box;
+        }
+        .background{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url("../images/mainbg.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+            /*filter:blur(3px);*/
+            z-index:-2 ;
         }
 
     </style>
@@ -82,73 +115,76 @@
     <script src="myFunction.js"></script>
 </head>
 <body>
-<div id="top">
-    <h1>数据结构虚拟在线实验网网</h1>
-    <div class="info">
-        <h6 class="username"></h6>
-        <button class="exit">退出账号</button>
+<div class="background"></div>
+<div class="center">
+    <div id="top">
+        <h1>数据结构虚拟在线实验网网</h1>
+        <div class="info">
+            <h6 class="username"></h6>
+            <button class="exit">退出账号</button>
+        </div>
     </div>
-</div>
-<div id="container">
-    <div class="left">
-        <ul>
-            <li class="end" name="kcjj">课程简介</li>
-            <li class="end" name="sydh">实验导航</li>
-            <li class="end" name=""jxjh>教学计划</li>
-            <li class="end" name="wdfk">我的反馈</li>
-            <li class="end" name="jxtdjs">教学团队介绍</li>
-            <li class="lock">链表<br>
-                <ul class="lock">
-                    <li class="end">顺序表</li>
-                    <li class="lock open">单链表<br>
-                        <ul>
-                            <li class="end" name="zjjd">实验一：增加节点</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="lock">队列<br>
-                <ul class="lock">
-                    <li class="lock open">顺序循环队列 <br>
-                        <ul>
-                            <li class="end" name="sqjc">实验二：顺序循环队列中进队和出队</li>
-                        </ul>
-                    </li>
+    <div id="container">
+        <div class="left">
+            <ul>
+                <li class="end" name="kcjj">课程简介</li>
+                <li class="end" name="sydh">实验导航</li>
+                <li class="end" name=""jxjh>教学计划</li>
+                <li class="end" name="wdfk">我的反馈</li>
+                <li class="end" name="jxtdjs">教学团队介绍</li>
+                <li class="lock">链表<br>
+                    <ul class="lock">
+                        <li class="end">顺序表</li>
+                        <li class="lock open">单链表<br>
+                            <ul>
+                                <li class="end" name="zjjd">实验一：增加节点</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="lock">队列<br>
+                    <ul class="lock">
+                        <li class="lock open">顺序循环队列 <br>
+                            <ul>
+                                <li class="end" name="sqjc">实验二：顺序循环队列中进队和出队</li>
+                            </ul>
+                        </li>
 
-                </ul>
-            </li>
-            <li class="end">数组</li>
-            <li class="end">树</li>
-        </ul>
+                    </ul>
+                </li>
+                <li class="end">数组</li>
+                <li class="end">树</li>
+            </ul>
+        </div>
+        <div class="right">
+            <ul>
+                <li class="kcjj">
+                    <div>
+                        <h1>这是课程简介</h1>
+                        <button id="openLinux" type="button">打开虚拟实验环境</button>
+                    </div>
+                </li>
+                <li class="sydh">
+                    <div>
+                        <h1>实验导航</h1>
+                    </div>
+                </li>
+                <li class="zjjd">
+                    <div>
+                        <a href="singleLinkedList.html">实验</a>
+                    </div>
+                </li>
+                <li class="sqjc">
+                    <div>
+                        <a href="sqQueue.html">实验二：顺序循环队列中进队和出队</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="right">
-        <ul>
-            <li class="kcjj">
-                <div>
-                    <h1>这是课程简介</h1>
-                    <button id="openLinux" type="button">打开虚拟实验环境</button>
-                </div>
-            </li>
-            <li class="sydh">
-                <div>
-                    <h1>实验导航</h1>
-                </div>
-            </li>
-            <li class="zjjd">
-                <div>
-                    <a href="singleLinkedList.html">实验</a>
-                </div>
-            </li>
-            <li class="sqjc">
-                <div>
-                    <a href="sqQueue.html">实验二：顺序循环队列中进队和出队</a>
-                </div>
-            </li>
-        </ul>
+    <div id="bottom">
+        <a href="#">满意度调查</a>
     </div>
-</div>
-<div id="bottom">
-    <a href="#">满意度调查</a>
 </div>
 <script>
     $(document).ready(function () {

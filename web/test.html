@@ -14,10 +14,10 @@
 </div>
 </body>
 <script type="text/javascript">
-    var str = "\nac dataStartfront=5rear=4list=8 8 8 8 空 56 7 10 22 8 dataEnd\nendlinedataStartfront=5rear=4list=8 8 8 8 空 56 7 10 22 8 dataEndend";
+    var str = "\nac dataStartfront=0rear=3list=空 空 空 空 空 空 空 空 空 空 dataEnd\nendlinedataStartfront=5rear=4list=8 8 8 8 空 56 7 10 22 8 dataEndend";
     // var reg=/dataStart.*dataEnd/g;
     // console.log(str.match(reg));
     var datas = handleQueueResult(str)[1];
-    drawQueue("canvas_1",datas[1])
+    drawQueue("canvas_1",datas[0])
 </script>
 </html>

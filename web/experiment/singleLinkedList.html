@@ -487,47 +487,9 @@ InitList_L(mylist);<br>
                                 <button class="settle">提交</button>
                             </div>
                         </li>
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_16 调用LinkList.h中的函数，在链表的第二个元素后面插入一个新的元素’888‘</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--ListInsert_L(mylist,2,888);-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_17 调用LinkList.h中的函数，遍历打印链表</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--ListTraverse_L(mylist);-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title"><img src="../images/arrow_down.png" alt="">step_18 加入可视化功能</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="cueContent">-->
-                                    <!--<div class="codePanel" aim="#code">-->
-                                        <!--ListVisualization_L(mylist);-->
-                                    <!--</div>-->
-                                    <!--<button class="insertBtn">自动插入</button>-->
-                                <!--</div>-->
-                                <!--<button class="cueBtn">提示</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<div class="title main"><img src="../images/arrow_down.png" alt="">step_19 运行，看是否插入成功</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="check">-->
-                                    <!--运行是否成功-->
-                                <!--</div>-->
-                                <!--<button class="checkRun22">运行</button>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                    <!--</ul>-->
+                    </ul>
                 </div>
+
             </li>
         </ul>
     </div>
@@ -878,13 +840,14 @@ InitList_L(mylist);<br>
     //对实验进行结算
     function settlement() {
         $(".over").hide();
-        $(".theEndResult").show();
-        console.log("showend");
         //运行结果目标达成数
         var stepResult = 0;
-        if(listarray[1][2]==888){
-            stepResult+=1;
+        if(listarray!=null){
+            if(listarray[1][2]==888){
+                stepResult+=1;
+            }
         }
+        console.log(stepResult);
         if(stepResult==1){
             $(".theEndResult").empty();
             $(".theEndResult").append("<h3>实验成功</h3>");
