@@ -11,9 +11,10 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         response.setCharacterEncoding("utf-8");
         String code = request.getParameter("code");
         String headerName = request.getParameter("headerName");
+        System.out.println("start test");
         if(code==null||code.equals("")){
             PrintWriter pw = response.getWriter();
-            pw.write("code error");
+            pw.write("找不到main.cpp");
             pw.flush();
             pw.close();
         }
@@ -21,7 +22,7 @@ public class GccServlet extends javax.servlet.http.HttpServlet {
         String header = request.getParameter(headerName);
         if(header==null){
             PrintWriter pw = response.getWriter();
-            pw.write("code error");
+            pw.write("找不到头文件");
             pw.flush();
             pw.close();
         }
