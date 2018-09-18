@@ -511,7 +511,7 @@ InitList_L(mylist);<br>
             </select>
             <ul>
                 <li class="unselected">
-                    <div class="fileName">LinkedList.h</div>
+                    <div class="fileName">LinkList.h</div>
                     <div class="codediv">
                         <textarea id="header" wrap="hard" spellcheck="false" class="editArea"></textarea>
                     </div>
@@ -942,7 +942,7 @@ InitList_L(mylist);<br>
     var listarray;
     function getArray(str) {
         var arr = new Array();
-        var reg = /\n(\d+ ?)+\n/g;
+        var reg = /\n ?(\d+ ?)+\n/g;
         var datas = str.match(reg);
         for(var key in datas){
             var reg2=/\d+/g;
@@ -1047,12 +1047,12 @@ InitList_L(mylist);<br>
             type:"post",
             url:"../test",data: {
                 "code":$("#code").val(),
-                "LinkList.h.h":$("#header").val(),
+                "LinkList.h":$("#header").val(),
                 "headerName":"LinkList.h"
             },
             async:false,
             success:function (data,status) {
-                //console.log(data);
+                console.log(data);
                 data = $.parseJSON(data);
                 $("#result").val(data.result);
                 listarray = getArray(data.result);
