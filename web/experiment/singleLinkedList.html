@@ -942,7 +942,7 @@ InitList_L(mylist);<br>
     var listarray;
     function getArray(str) {
         var arr = new Array();
-        var reg = /\n ?(\d+ ?)+\n/g;
+        var reg = /\n\s*(\d+\s*)+\n/g;
         var datas = str.match(reg);
         for(var key in datas){
             var reg2=/\d+/g;
@@ -1054,7 +1054,11 @@ InitList_L(mylist);<br>
             success:function (data,status) {
                 console.log(data);
                 data = $.parseJSON(data);
-                $("#result").val(data.result);
+                var mayErrorResult = data.result;
+                if(mayErrorResult.indexOf("error:")!=-1){
+                    mayErrorResult = mayErrorResult.split("\n")[0];
+                }
+                $("#result").val(mayErrorResult);
                 listarray = getArray(data.result);
                 $(".right ul").empty();
                 var i = 1;

@@ -29,10 +29,15 @@
                 $("#para").css("font-size", textFontSize);
             });
         });
-        var str="\n0 1 23 3 4 5\nabc\n0 12 34\n";
-        var reg = /\n(\d+ ?)+\n/g;
+        var str="我初始化了一个头结点。\\n我创建了一个带头结点的单链表，表长为：6\\n\\n表中的元素依次为：\n    62    34    56     7    10    22\n销毁成功====>\\n";
+        console.log(str);
+        var reg = /\n\s*(\d+\s*)+\n/g;
         var a = str.match(reg);
         console.log(a);
+        var str2 = "   62"
+        var reg = /\s+/g
+        var b = str2.match(reg)
+        console.log(b);
     </script>
 </head>
 <body>
