@@ -31,4 +31,19 @@ public class TestResultServlet extends BaseServlet {
         return "success";
     }
 
+    public String findByUsernameAndTestNum(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        String username = user.getUsername();
+        String testNum = req.getParameter("testNum");
+        if(username==null || username.isEmpty() || testNum==null || testNum.isEmpty()){
+            return "needed data is empty";
+        }
+        TestResult testResult = service.findByUsernameAndTestNum(username,testNum);
+        if(testResult==null){
+            testResult = new TestResult();
+            testResult.setFinish("0");
+        }
+        return JSON.toJSONString(testResult);
+    }
+
 }

@@ -15,7 +15,7 @@ public class TestResultService {
         dao.add(result);
     }
 
-    public TestResult findByUsername(String name,String testNum){
+    public TestResult findByUsernameAndTestNum(String name,String testNum){
         return  dao.findByUsernameAndTestNum(name,testNum);
     }
 
@@ -25,7 +25,9 @@ public class TestResultService {
         if(testResult1==null){
             dao.add(testResult);
         }else {
-            dao.update(testResult);
+            if(!testResult1.getFinish().equals("1")) {
+                dao.update(testResult);
+            }
         }
     }
 }
