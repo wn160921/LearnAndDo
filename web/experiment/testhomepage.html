@@ -15,6 +15,13 @@
             color: #fff;
             text-decoration: underline;
         }
+        table{
+            text-align: center;
+        }
+        td{
+            padding: 5px 10px;
+            border:1px white solid;
+        }
         .center{
             width: 1200px;
             margin: 20px auto 0;
@@ -74,9 +81,7 @@
         .open{
             list-style-image: url("../images/arrow_down.png");
         }
-        .show{
-            display: none;
-        }
+
         #container .left ul ul{
             margin-left: 20px;
         }
@@ -105,10 +110,25 @@
             /*filter:blur(3px);*/
             z-index:-2 ;
         }
-
+        .checkTestStateDiv{
+            position: relative;
+            overflow: hidden;
+            width: 100px;
+            height: 30px;
+        }
+        .checkTestStateDiv .result{
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .checkTestStateDiv .showLink{
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+        }
     </style>
     <script src="../jquery-3.3.1.js"></script>
-    <script src="myFunction.js"></script>
+    <script src="js/myFunction.js"></script>
 </head>
 <body>
 <div class="background"></div>
@@ -123,46 +143,330 @@
     <div id="container">
         <div class="left">
             <ul>
-                <li class="end" name="kcjj">课程简介</li>
-                <li class="end" name="sydh">实验导航</li>
-                <li class="end" name=""jxjh>教学计划</li>
-                <li class="end" name="wdfk">我的反馈</li>
-                <li class="end" name="jxtdjs">教学团队介绍</li>
-                <li class="lock">链表<br>
-                    <ul class="lock">
-                        <li class="end">顺序表</li>
-                        <li class="lock open">单链表<br>
-                            <ul>
-                                <li class="end" name="zjjd">实验一：增加节点</li>
+                <li class="lock end" name="kcjj">课程简介</li>
+                <li class="lock end" name="sydh">实验导航</li>
+                <li class="lock" name="jxjh">教学计划 <br>
+                    <ul style="display: none">
+                        <li class="lock">第1 章 绪论 <br>
+                            <ul style="display: none">
+                                <li class="lock end">1.1 数据结构的产生和发展</li>
+                                <li class="lock end">1.2 数据结构的研究对象</li>
+                                <li class="lock end">1.3 基本概念和术语</li>
+                                <li class="lock end">1.4 数据结构与算法的关系</li>
+                                <li class="lock end">1.5 算法与算法分析</li>
+                                <li class="lock end">1.6 与算法描述有关的C++知识</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第2 章 线性表（实验1、2、3） <br>
+                            <ul style="display:none;">
+                                <li class="lock end">2.1 线性表的基本概念，线性表的定义、线性表的抽象数据类型</li>
+                                <li class="lock end">2.2 线性表的顺序存储和基本操作，顺序表的定义、顺序表的基本操作</li>
+                                <li class="lock end">2.3 线性表的链式存储和基本操作，单链表及其基本操作、双向链表、循环链表</li>
+                                <li class="lock end">2.4 顺序表和链表的综合比较</li>
+                                <li class="lock end">2.5 静态链表</li>
+                                <li class="lock end">2.6 线性表算法设计举例</li>
+                            </ul>
+                        </li>
+                        <li class="lock"> 第3章 堆栈与队列（实验4、5、6） <br>
+                            <ul style="display: none">
+                                <li class="lock end">3.1 堆栈。堆栈的基本概念、堆栈的顺序存储和基本操作堆栈的链式存储和基本操作</li>
+                                <li class="lock end">3.2 堆栈的应用举例</li>
+                                <li class="lock end">3.3 队列。队列的基本概念、队列的顺序存储和基本操作，队列的链式存储和基本操作</li>
+                                <li class="lock end">3.4 队列的应用举例</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第4章 串 （实验7、8） <br>
+                            <ul style="display: none">
+                                <li class="lock end">4.1 串的基本概念</li>
+                                <li class="lock end">4.2 串的顺序存储和基本操作</li>
+                                <li class="lock end">4.3 串的链式存储和基本操作</li>
+                                <li class="lock end">4.4 串的模式匹与算法Brute-Force 算法、KMP 算法</li>
+                                <li class="lock end">4.5 串的应用举例</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第5章 数组（实验9、10） <br>
+                            <ul style="display: none">
+                                <li class="lock end">5.1 数组的基本概念</li>
+                                <li class="lock end">5.2 数组的存储结构</li>
+                                <li class="lock end">5.3 数组的顺序存储表示和基本操作数组的顺序存储表示、数组的基本操作</li>
+                                <li class="lock end">5.4 矩阵的压缩存储。特殊矩阵的压缩存储、稀疏矩阵的压缩存储</li>
+                                <li class="lock end">5.5 广义表。广义表的基本概念、广义表的存储结构及其基本操作</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第6章 二叉树（实验11、12、13、14）<br>
+                            <ul style="display: none">
+                                <li class="lock end">6.1 树。树的基本概念、树的存储结构、树的基本操作</li>
+                                <li class="lock end">6.2 二叉树。二叉树的基本概念、二叉树的存储结构，二叉树的遍历、二叉树的其他操作</li>
+                                <li class="lock end">6.3 线索二叉树。线索二叉树的基本概念、线索二叉树的存储结构</li>
+                                <li class="lock end">6.4 哈夫曼树。哈夫曼树的基本概念、构造哈夫曼树、哈夫曼编码</li>
+                                <li class="lock end">6.5 树、森林与二叉树的转换。树与二叉树的转换、森林与二叉树的转换</li>
+                                <li class="lock end">6.6 树的应用举例</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第7章 图 <br>
+                            <ul style="display: none">
+                                <li class="lock end">7.1 图的基本概念 图的定义、图的基本术语、图的抽象数据类型</li>
+                                <li class="lock end">7.2 图的存储结构 邻接矩阵、邻接表、十字邻接表、邻接多重表</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第8 章 查找实验（实验15） <br>
+                            <ul style="display:none;">
+                                <li class="lock end">8.1 查找的基本概念</li>
+                                <li class="lock end">8.2 静态查找。顺序查找、二分查找、索引查找</li>
+                                <li class="lock end">8.3 动态查找。二叉排序树、平衡二叉树、B-树和B+树</li>
+                                <li class="lock end">8.4 哈希表查找。哈希表查找的基本概念、哈希函数构造方法，哈希冲突解决方法</li>
+                            </ul>
+                        </li>
+                        <li class="lock">第9 章 排序（实验16） <br>
+                            <ul style="display: none">
+                                <li class="lock end">9.1 排序的基本概念</li>
+                                <li class="lock end">9.2 插入排序。直接插入排序、希尔排序</li>
+                                <li class="lock end">9.3 选择排序。直接选择排序、堆排序</li>
+                                <li class="lock end">9.4 交换排序。冒泡排序、快速排序</li>
+                                <li class="lock end">9.5 归并排序</li>
+                                <li class="lock end">9.6 基数排序</li>
                             </ul>
                         </li>
                     </ul>
-                </li>
-                <li class="lock">队列<br>
-                    <ul class="lock">
-                        <li class="lock open">顺序循环队列 <br>
-                            <ul>
-                                <li class="end" name="sqjc">实验二：顺序循环队列中进队和出队</li>
-                            </ul>
-                        </li>
 
-                    </ul>
                 </li>
-                <li class="end">数组</li>
-                <li class="end">树</li>
+                <li class="lock end" name="tdjs">团队介绍</li>
             </ul>
         </div>
         <div class="right">
             <ul>
                 <li class="kcjj">
                     <div>
-                        <h1>这是课程简介</h1>
+                        《数据结构》是计算机相关专业、信息管理专业等相关专业的一门
+                        重要的专业基础课程。《数据结构》简要的说，是研究数据的关系
+                        学科，主要介绍和讨论数据基于问题的逻辑结构、基于内存物理存
+                        储结构，和基于结构的数据各种操作的实现及分析。数据结构的不
+                        仅是程序设计的基础，也是设计和实现编译程序、操作系统、数据
+                        系统及其它系统程序以及各种大型应用程序的重要基础。课程介绍
+                        几种逻辑结构的数据，分析它们的特点，以及在计算机中的存储方
+                        法，和常规操作的实现。课程以C++语言作为算法的描述工具，强
+                        化数据结构基本知识和面向对象程序设计基本能力的双基训练。为
+                        后续计算机相关的专业课程的学习打下坚实的基础。
+                        通过这门课程的学习，使学生在软件设计的过程中，能够正确分析
+                        数据的结构、并合理地选择数据的存储方式，设计科学操作算法，
+                        从而提高软件整体质量。本课程的学习将为后续课程的学习以及软
+                        件设计水平的提高打下良好的基础。
                         <button id="openLinux" type="button">打开虚拟实验环境</button>
                     </div>
                 </li>
                 <li class="sydh">
                     <div>
                         <h1>实验导航</h1>
+                        <table cellspacing="0">
+                            <tr>
+                                <td>实验一</td><td>单链表中增加删除节点*</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result testone">
+                                            检测中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html" target="_self">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验二</td><td>单链表的逆置</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验三</td><td>利用链表建立通讯录</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验四</td><td>利用堆栈进行数制的转换</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验五</td><td>利用堆栈和队列实现元素的逆置</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验六</td><td>利用队列实现排队问题（出队和入队）*</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result testtwo">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./sqQueue.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验七</td><td>统计单词出现的频率（单词以空格隔开）</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验八</td><td>字符串的拆分、比较等操作</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验九</td><td>计算二阶矩阵的对角线之和</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十</td><td>计算二阶矩阵的马鞍点</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十一</td><td>二叉树的（前、中、后）序遍历，统计二叉树的结点*</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十二</td><td>利用二叉树进行单词排序</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十三</td><td>树的转换（普通树转换成二叉树）</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十四</td><td>哈夫曼树和线索二叉树</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十五</td><td>利用二叉排序树进行查找	</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>实验十六</td><td>排序综合实验</td>
+                                <td>
+                                    <div class="checkTestStateDiv">
+                                        <div class="result">
+                                            调试中
+                                        </div>
+                                        <div class="showLink">
+                                            <a href="./singleLinkedList.html">进入实验</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </li>
                 <li class="zjjd">
@@ -175,6 +479,13 @@
                         <a href="sqQueue.html">实验二：顺序循环队列中进队和出队</a>
                     </div>
                 </li>
+                <li class="tdjs">
+                    <div>
+                        程秀峰，男，华中师范大学信息管理学院副教授 <br>
+                        张小龙，男，华中师范大学信息管理学院研究生 <br>
+                        王&nbsp;&nbsp;&nbsp;宁，男，华中师范大学信息管理学院本科生 <br>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -185,8 +496,8 @@
 <script>
     $(document).ready(function () {
         $("#openLinux").click(startLinux);
-        $("#container .left ul li").click(function (event) {
-            console.log($(this.class))
+        $(".lock").click(function (event) {
+            //console.log($(this.class))
             event.stopPropagation();
             event.stopImmediatePropagation();
             if($(this).hasClass("end")){
@@ -194,9 +505,15 @@
                 $('.'+name).show().siblings().hide();
                 return;
             }
-            $(this).toggleClass("open");
-            $(this).children("ul").toggleClass("show");
+            if($(this).hasClass("open")){
+                $(this).children("ul").slideUp();
+            }else{
+                $(this).children("ul").slideDown();
+            }
+            $(this).toggleClass("open")
+
         });
+
         $("#container .right ul li").first().siblings().hide();
     });
 
@@ -219,6 +536,11 @@
         );
         self.location="../login.html";
     });
+
+    //检查实验是否完成
+    checkTestIsFinish(1,".result.testone");
+
+    checkTestIsFinish(2,".result.testtwo");
 </script>
 </body>
 </html>
