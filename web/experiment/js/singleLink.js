@@ -1,6 +1,19 @@
 //添加悬浮提示内容
 $(".insertBtn").attr("title","请保证光标落在要插入的位置上");
-
+$.ajax({
+    url:"../TestResultServlet",
+    data:{
+        method:"findByUsernameAndTestNum",
+        testNum:1
+    },
+    success:function (result) {
+        console.log(result);
+        testResult = $.parseJSON(result);
+        if(testResult.finish==1){
+            alert("实验已经提交，所有更改不会再被记录");
+        }
+    }
+});
 //textarea字体大小
 var fontSize = 20;
 $(".fontSizeAdd").click(function () {
@@ -288,12 +301,17 @@ function twoCheck() {
     $(".netxTip").text("成功生成两幅图，是否结束实验？");
     $(".netxTip").append("<br><button class='settle'>结束实验</button>");
     $(".settle").click(function () {
+        clearInterval(uploadtimer);
+        upLoadData(1);
         settlement();
     });
     $(".netxTip").show();
 }
 $(".settle").click(function () {
     settlement();
+    clearInterval(uploadtimer);
+    upLoadData(1);
+    console.log("提交完成实验");
 });
 
 //对实验进行结算
@@ -307,31 +325,51 @@ function settlement() {
         }
     }
     console.log(stepResult);
+    var cueRest = parseInt($(".cueRest").text());
     if(stepResult==1){
         $(".theEndResult").empty();
         $(".theEndResult").append("<h3>实验成功</h3>");
         $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
         $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
-        $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+        //$(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
         $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
-        $(".theEndResult").show();
+        $(".theEndResult").append("<h4>实验得分"+(100-(13-cueRest)*0.5-(5-autoInsert)*0.5)+"</h4>");
+        $(".theEndResult").append("<div class=\"exitDiv\"><a href=\"./testhomepage.html\">退出实验</a></div>");
+        $(".theEndWrapper").show();
     }else {
         $(".theEndResult").empty();
         $(".theEndResult").append("<h3>实验完成</h3>");
         $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
         $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
-        $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+        //$(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
         $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
-        $(".theEndResult").show();
+        $(".theEndResult").append("<h4>实验得分"+(60+(13-cueRest)*0.5+(5-autoInsert)*0.5)+"</h4>");
+        $(".theEndResult").append("<div class=\"exitDiv\"><a href=\"./testhomepage.html\">返回主页</a></div>");
+        $(".theEndWrapper").show();
     }
 
 }
 
 //上传实验数据
 function upLoadData(isfinish){
-    var testData = {"time":timeSpan.innerHTML,"cueRest": $(".cueRest").text(),"changGreyNum":changeGreyNum,"autoInsertNum":autoInsert};
-    console.log("uploaddata!!");
-    console.log(JSON.stringify(testData));
+    console.log("isfinish:"+isfinish);
+    var picNum = 0;
+    var isCompleteAim = 0;
+    if(listarray!=null){
+        picNum = listarray.length;
+        if(listarray.length==2){
+            if(listarray[1][2]==888){
+               isCompleteAim =1;
+            }else {
+                isCompleteAim = 0;
+            }
+        }else {
+            isCompleteAim = 0;
+        }
+
+    }
+    var testData = {"time":timeSpan.innerHTML,"cueRest": $(".cueRest").text(),"changGreyNum":changeGreyNum,"autoInsertNum":autoInsert,
+            "picNum":picNum,"isCompleteAim":isCompleteAim,"isfinish":isfinish};
     $.ajax({
         type:"post",
         url:"../TestResultServlet",
@@ -352,7 +390,7 @@ function upLoadData(isfinish){
         }
     });
 }
-uploadtimer = setInterval("upLoadData(1)",3000);
+uploadtimer = setInterval("upLoadData(0)",3000);
 
 $("textarea").keydown(function (e) {
     event = e||window.event;
@@ -403,10 +441,16 @@ function getArray(str) {
     var arr = new Array();
     var reg =  /.*(\d+.*)+\n/g;
     var datas = str.match(reg);
+    var arrIndex = 0;
     for(var key in datas){
         var reg2=/\d+/g;
-        arr[key]=datas[key].match(reg2);
+        var oneArr = datas[key].match(reg2);
+        if(oneArr.length>=2){
+            arr[arrIndex]=oneArr;
+            arrIndex+=1;
+        }
     }
+    console.log(arr)
     return arr;
 }
 
@@ -497,9 +541,6 @@ $(".run").click(runClick);
 function runClick(){
     checkIsLogin();
     listarray=null;
-    //alert("click");
-    //console.log("click");
-    //console.log("code is:"+$("#code").val());
     $("#result").val("");
     $(".right ul").empty();
     $.ajax({
@@ -537,7 +578,7 @@ function runClick(){
                 twoCheck();
             }
         }});
-    upLoadData();
+    upLoadData(0);
 }
 $(".center .utilBar ul li").click(function () {
     $(this).removeClass("unselected").siblings().addClass("unselected");

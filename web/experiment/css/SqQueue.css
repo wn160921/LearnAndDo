@@ -130,15 +130,25 @@ ul {
     z-index: 1;
     display: none;
 }
-.theEndResult{
+.theEndWrapper{
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: #ffbf30;
-    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #b9bbbe88;
+    z-index: 2;
     display: none;
     text-align: center;
 }
+
+.theEndResult{
+    width: 700px;
+    margin: 300px auto;
+    background-color: #fcf8e3;
+    text-align: center;
+}
+
 .tips{
     position: fixed;
     background: #66666666;

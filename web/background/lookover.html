@@ -66,6 +66,9 @@
                 <li>剩余提示</li>
                 <li>点击步骤</li>
                 <li>自动插入</li>
+                <li>生成图片数</li>
+                <li>完成实验</li>
+                <li>提交实验</li>
             </ul>
         </div>
     </div>
@@ -98,7 +101,8 @@
                             var result = $.parseJSON(datas[key].resultJSON);
                             console.log(typeof result);
                             $(".showtable").append("<ul class='data'><li>"+index+"</li><li>"+datas[key].username+"</li><li>"+result.time+
-                                "</li><li>"+result.cueRest+"</li><li>"+result.changGreyNum+"</li><li>"+result.autoInsertNum+"</li></ul>");
+                                "</li><li>"+result.cueRest+"</li><li>"+result.changGreyNum+"</li><li>"+result.autoInsertNum
+                                +"</li><li>"+result.picNum+"</li><li>"+result.isCompleteAim+"</li><li>"+result.isfinish+"</li></ul>");
                             index+=1;
                         }
                     }

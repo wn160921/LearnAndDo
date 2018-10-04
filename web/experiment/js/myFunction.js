@@ -114,7 +114,25 @@ function handleQueueResult(resultStr) {
     return [result,arrLists];
 }
 
-
+//test 指实验
+function checkTestIsFinish(testNum,divSelect) {
+    $.ajax({
+        url:"../TestResultServlet",
+        data:{
+            method:"findByUsernameAndTestNum",
+            testNum:testNum
+        },
+        success:function (result) {
+            console.log(result);
+            testResult = $.parseJSON(result);
+            if(testResult.finish==0){
+                $(divSelect).hide();
+            }else{
+                $(divSelect).text("已完成");
+            }
+        }
+    });
+}
 
 
 

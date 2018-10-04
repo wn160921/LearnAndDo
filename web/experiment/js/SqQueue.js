@@ -299,30 +299,24 @@ $(".settle").click(function () {
 //对实验进行结算
 function settlement() {
     $(".over").hide();
-    $(".theEndResult").show();
-    console.log("showend");
     //运行结果目标达成数
     var stepResult = 0;
-    if(listarray[1][2]==888){
-        stepResult+=1;
+    if(listarray!=null){
+        if(listarray[1][2]==888){
+            stepResult+=1;
+        }
     }
-    if(stepResult==1){
-        $(".theEndResult").empty();
-        $(".theEndResult").append("<h3>实验成功</h3>");
-        $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
-        $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
-        $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
-        $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
-        $(".theEndResult").show();
-    }else {
-        $(".theEndResult").empty();
-        $(".theEndResult").append("<h3>实验完成</h3>");
-        $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
-        $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
-        $(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
-        $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
-        $(".theEndResult").show();
-    }
+    console.log(stepResult);
+    var cueRest = parseInt($(".cueRest").text());
+    $(".theEndResult").empty();
+    $(".theEndResult").append("<h3>实验成功</h3>");
+    $(".theEndResult").append("<h4>"+timeSpan.innerHTML+"</h4>");
+    $(".theEndResult").append("<h4>剩余提示数"+$(".cueRest").text()+"</h4>");
+    //$(".theEndResult").append("<h4>变灰步骤数"+changeGreyNum+"</h4>");
+    $(".theEndResult").append("<h4>自动插入数"+autoInsert+"</h4>");
+    $(".theEndResult").append("<h4>实验得分"+(100-(13-cueRest)*0.5-(5-autoInsert)*0.5)+"</h4>");
+    $(".theEndResult").append("<div class=\"exitDiv\"><a href=\"./testhomepage.html\">退出实验</a></div>");
+    $(".theEndWrapper").show();
 
 }
 
